@@ -6,7 +6,7 @@ A Python-based web application running on Raspberry Pi that automatically scrape
 ## Architecture Design
 
 ### Technology Stack
-- **Backend**: Python 3.9+ with Flask
+- **Backend**: Python 3.13+ with Flask
 - **Real-time Updates**: Socket.IO
 - **Web Scraping**: BeautifulSoup4 + Requests (or Selenium for dynamic content)
 - **Task Scheduling**: APScheduler
@@ -16,15 +16,15 @@ A Python-based web application running on Raspberry Pi that automatically scrape
 
 ### System Architecture
 ```
-┌─────────────────┐     ┌──────────────┐     ┌─────────────┐
-│   Scheduler     │────▶│  Web Scraper │────▶│   Database  │
-│  (APScheduler)  │     │  (BS4/Selenium)    │   (SQLite)  │
-└─────────────────┘     └──────────────┘     └─────────────┘
-                                                    │
-┌─────────────────┐     ┌──────────────┐            │
-│   Web Client    │◀────│  Flask App   │◀───────────┘
-│  (Browser)      │     │  + Socket.IO │
-└─────────────────┘     └──────────────┘
+┌─────────────────┐      ┌─────────────────┐      ┌──────────────┐
+│   Scheduler     │────▶│  Web Scraper     │────▶│   Database   │
+│  (APScheduler)  │      │  (BS4/Selenium) │      │   (SQLite)   │
+└─────────────────┘      └─────────────────┘      └──────────────┘
+                                                           │
+┌─────────────────┐      ┌──────────────┐                  │
+│   Web Client    │◀────│  Flask App    │◀────────────────┘
+│  (Browser)      │      │  + Socket.IO │
+└─────────────────┘      └──────────────┘
 ```
 
 ## Phase 1: Environment Setup (Day 1)
@@ -35,7 +35,7 @@ A Python-based web application running on Raspberry Pi that automatically scrape
 sudo apt update && sudo apt upgrade -y 
 
 # Install Python and development tools
-sudo apt install python3-pip python3-venv git nginx -y
+sudo apt install python3-pip python3-venv git caddy -y
 
 # Install Chrome/Chromium for Selenium (if needed)
 sudo apt install chromium-browser chromium-chromedriver -y
@@ -44,12 +44,12 @@ sudo apt install chromium-browser chromium-chromedriver -y
 ### 1.2 Project Structure
 ```
 lunch-menu-aggregator/
-├── app.py                 # Main Flask application
+├── app.py                # Main Flask application
 ├── config.py             # Configuration settings
 ├── requirements.txt      # Python dependencies
 ├── scrapers/
 │   ├── __init__.py
-│   ├── base_scraper.py  # Abstract base class
+│   ├── base_scraper.py   # Abstract base class
 │   ├── erste_campus.py   # Scraper for erstecampus.at
 │   ├── four_oh_four.py   # Scraper for 4oh4.at
 │   ├── enjoy_henry.py    # Scraper for enjoyhenry.com
@@ -57,48 +57,61 @@ lunch-menu-aggregator/
 │   └── flipsnack_menu.py # Scraper for Flipsnack weekly menu
 ├── models/
 │   ├── __init__.py
-│   └── menu.py          # Database models
+│   └── menu.py           # Database models
 ├── static/
 │   ├── css/
-│   │   └── style.css    # Modern styling
+│   │   └── style.css     # Modern styling
 │   ├── js/
-│   │   └── app.js       # Socket.IO client
+│   │   └── app.js        # Socket.IO client
 │   └── images/
 ├── templates/
 │   ├── base.html
-│   └── index.html       # Main menu display
+│   └── index.html        # Main menu display
 ├── utils/
 │   ├── __init__.py
-│   ├── scheduler.py     # Task scheduling
-│   └── cache.py         # Caching utilities
+│   ├── scheduler.py      # Task scheduling
+│   └── cache.py          # Caching utilities
 └── tests/
-    └── test_scrapers.py # Unit tests
+    └── test_scrapers.py  # Unit tests
 ```
 
 ### 1.3 Virtual Environment Setup
 ```bash
-cd ~/lunch-menu-aggregator
-python3 -m venv venv
-source venv/bin/activate
+cd cd /home/nuc8/05_development/02_lunch_app
 ```
 
-## Phase 2: Core Development (Days 2-4)
+## Phase 2: Core Development
 
 ### 2.1 Dependencies Installation
-Create `requirements.txt`:
+Create `environment.yaml`:
 ```
-Flask==3.0.0
-Flask-SocketIO==5.3.5
-Flask-SQLAlchemy==3.1.1
-beautifulsoup4==4.12.2
-requests==2.31.0
-selenium==4.15.2
-APScheduler==3.10.4
-python-socketio==5.10.0
-lxml==4.9.3
-python-dateutil==2.8.2
+name: lunch-menu-app
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pip
+  - pip:
+    - Flask==3.1.1
+    - Flask-SocketIO==5.5.1
+    - Flask-SQLAlchemy==3.1.2
+    - beautifulsoup4==4.13.4
+    - requests==2.32.4
+    - selenium==4.34.2
+    - APScheduler==3.11.0
+    - python-socketio==5.13.0
+    - lxml==6.0.0
+    - python-dateutil==2.9.0.post0
+    - PyPDF2==3.0.1
+    - pdfplumber==0.11.7
+    - webdriver-manager==4.0.2
 ```
 
+```bash
+conda env create -f environment.yaml
+conda activate lunch-menu-app
+```
 ### 2.2 Base Scraper Class
 ```python
 # scrapers/base_scraper.py
@@ -291,9 +304,9 @@ class FlipsnackMenuScraper(BaseScraper):
 Add these to `requirements.txt`:
 ```
 PyPDF2==3.0.1
-pdfplumber==0.10.3  # Alternative PDF parser
-selenium==4.15.2
-webdriver-manager==4.0.1  # Automatic chromedriver management
+pdfplumber==0.11.7
+selenium==4.34.2
+webdriver-manager==4.0.2
 ```
 
 ## Phase 3: Flask Application (Days 5-6)
@@ -374,7 +387,7 @@ def setup_scheduler(app):
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Lunch Menus</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
 </head>
 <body>
     <header>

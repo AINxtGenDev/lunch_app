@@ -5,6 +5,9 @@ Create and activate environment
 
    conda env create -f environment.yaml
 
+   if environment.yaml was modified use this command:
+   conda env update --name lunch-menu-app --file environment.yaml --prune
+
 *) Activate the environment
    ##############################
    conda activate lunch-menu-app
