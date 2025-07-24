@@ -1,0 +1,21 @@
+name: lunch-menu-app
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pip
+  - pip:
+    - Flask==3.0.0
+    - Flask-SocketIO==5.3.5
+    - Flask-SQLAlchemy==3.1.1
+    - beautifulsoup4==4.12.2
+    - requests==2.31.0
+    - selenium==4.15.2
+    - APScheduler==3.10.4
+    - python-socketio==5.10.0
+    - lxml==4.9.3
+    - python-dateutil==2.8.2
+    - PyPDF2==3.0.1
+    - pdfplumber==0.10.3
+    - webdriver-manager==4.0.1
