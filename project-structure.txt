@@ -1,0 +1,35 @@
+.
+├── 00_readme.txt
+├── GEMINI.md
+├── LICENSE
+├── README.md
+├── docs
+├── environment.yaml
+├── init-project-script.sh
+├── logs
+├── models
+│   └── __init__.py
+├── project-structure.txt
+├── quick_start.txt
+├── scrapers
+│   ├── __init__.py
+│   └── base_scraper.py
+├── scripts
+├── static
+│   ├── css
+│   │   └── style.css
+│   ├── images
+│   └── js
+│       └── app.js
+├── templates
+│   ├── base.html
+│   └── index.html
+├── tests
+│   ├── __init__.py
+│   └── conftest.py
+└── utils
+    ├── __init__.py
+    ├── cache.py
+    └── scheduler.py
+
+13 directories, 20 files

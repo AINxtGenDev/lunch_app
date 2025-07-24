@@ -1,0 +1,49 @@
+/home/wpl/miniconda3/envs/lunch-menu-app/bin/python /home/wpl/02_development/02_lunch_app/app.py
+ * Serving Flask app 'app'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.30.91.57:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 516-011-792
+127.0.0.1 - - [24/Jul/2025 14:51:33] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jul/2025 14:51:33] "GET /static/css/style.css HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jul/2025 14:51:33] "GET /static/js/app.js HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jul/2025 14:51:33] "GET /socket.io/?EIO=4&transport=polling&t=PWyVIta HTTP/1.1" 200 -
+message handler error
+Traceback (most recent call last):
+  File "/home/wpl/miniconda3/envs/lunch-menu-app/lib/python3.13/site-packages/flask_socketio/__init__.py", line 831, in _handle_event
+    ret = handler(auth)
+TypeError: handle_connect() takes 0 positional arguments but 1 was given
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wpl/miniconda3/envs/lunch-menu-app/lib/python3.13/site-packages/engineio/server.py", line 450, in run_handler
+    return self.handlers[event](*args)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/home/wpl/miniconda3/envs/lunch-menu-app/lib/python3.13/site-packages/socketio/server.py", line 652, in _handle_eio_message
+    self._handle_connect(eio_sid, pkt.namespace, pkt.data)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wpl/miniconda3/envs/lunch-menu-app/lib/python3.13/site-packages/socketio/server.py", line 538, in _handle_connect
+    success = self._trigger_event(
+        'connect', namespace, sid, self.environ[eio_sid])
+  File "/home/wpl/miniconda3/envs/lunch-menu-app/lib/python3.13/site-packages/socketio/server.py", line 617, in _trigger_event
+    return handler(*args)
+  File "/home/wpl/miniconda3/envs/lunch-menu-app/lib/python3.13/site-packages/flask_socketio/__init__.py", line 292, in _handler
+    return self._handle_event(handler, message, real_ns, sid,
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                              *args)
+                              ^^^^^^
+  File "/home/wpl/miniconda3/envs/lunch-menu-app/lib/python3.13/site-packages/flask_socketio/__init__.py", line 833, in _handle_event
+    ret = handler()
+  File "/home/wpl/02_development/02_lunch_app/app.py", line 20, in handle_connect
+    menus = get_today_menus()
+            ^^^^^^^^^^^^^^^
+NameError: name 'get_today_menus' is not defined
+127.0.0.1 - - [24/Jul/2025 14:51:33] "POST /socket.io/?EIO=4&transport=polling&t=PWyVItl&sid=obUvZPaKKmoxL8juAAAA HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jul/2025 14:51:33] "GET /socket.io/?EIO=4&transport=polling&t=PWyVItl.0&sid=obUvZPaKKmoxL8juAAAA HTTP/1.1" 200 -
+127.0.0.1 - - [24/Jul/2025 14:51:33] "GET /favicon.ico HTTP/1.1" 404 -
