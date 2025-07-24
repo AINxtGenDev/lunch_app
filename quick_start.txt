@@ -1,0 +1,33 @@
+# 1. Initialize project structure
+bash init_project.sh
+
+# 2. Create Conda environment
+conda env create -f environment.yaml
+conda activate lunch-menu-app
+
+# 3. Configure environment
+cp .env.example .env
+# Edit .env with your settings
+
+# 4. Initialize database
+python scripts/setup_db.py
+
+# 5. Test the setup
+python app.py
+# Visit http://localhost:5000
+
+# Always activate environment
+conda activate lunch-menu-app
+
+# Run with auto-reload
+python app.py
+
+# Format code
+black .
+
+# Run tests
+pytest --cov
+
+# Test a specific scraper
+python scripts/test_scraper.py erste_campus
+
