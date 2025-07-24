@@ -18,9 +18,9 @@ A Python-based web application running on Raspberry Pi that automatically scrape
 ```
 ┌─────────────────┐     ┌──────────────┐     ┌─────────────┐
 │   Scheduler     │────▶│  Web Scraper │────▶│   Database  │
-│  (APScheduler)  │     │  (BS4/Selenium)   │   (SQLite)  │
+│  (APScheduler)  │     │  (BS4/Selenium)    │   (SQLite)  │
 └─────────────────┘     └──────────────┘     └─────────────┘
-                                                      │
+                                                    │
 ┌─────────────────┐     ┌──────────────┐            │
 │   Web Client    │◀────│  Flask App   │◀───────────┘
 │  (Browser)      │     │  + Socket.IO │
@@ -32,7 +32,7 @@ A Python-based web application running on Raspberry Pi that automatically scrape
 ### 1.1 Raspberry Pi Preparation
 ```bash
 # Update system
-sudo apt update && sudo apt upgrade -y
+sudo apt update && sudo apt upgrade -y 
 
 # Install Python and development tools
 sudo apt install python3-pip python3-venv git nginx -y
