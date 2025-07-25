@@ -1,4 +1,4 @@
-# Raspberry Pi Lunch Menu Aggregator----
+# Raspberry Pi Lunch Menu Aggregator
 
 ## Project Overview
 A Python-based web application that automatically scrapes daily lunch menus from multiple restaurant websites, including PDF-based weekly menus, and displays them in a modern, responsive interface. The application is designed to run on a Raspberry Pi.
