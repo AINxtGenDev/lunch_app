@@ -92,4 +92,4 @@ A Python-based web application that automatically scrapes daily lunch menus from
     Navigate to `http://127.0.0.1:5000` (or the configured address) to see the application.
 
 ## License
-This project is licensed under the terms of the LICENSE file.
+This project is licensed under the terms of the LICENSE file.# just testing
