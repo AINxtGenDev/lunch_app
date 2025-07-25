@@ -1,35 +1,31 @@
-.
-├── 00_readme.txt
-├── GEMINI.md
-├── LICENSE
-├── README.md
-├── docs
-├── environment.yaml
-├── init-project-script.sh
-├── logs
-├── models
-│   └── __init__.py
-├── project-structure.txt
-├── quick_start.txt
-├── scrapers
-│   ├── __init__.py
-│   └── base_scraper.py
-├── scripts
-├── static
-│   ├── css
-│   │   └── style.css
-│   ├── images
-│   └── js
-│       └── app.js
-├── templates
-│   ├── base.html
-│   └── index.html
-├── tests
-│   ├── __init__.py
-│   └── conftest.py
-└── utils
-    ├── __init__.py
-    ├── cache.py
-    └── scheduler.py
-
-13 directories, 20 files
+lunch-menu-app/
+├── app/
+│   ├── __init__.py         # Application factory (create_app)
+│   ├── models.py           # SQLAlchemy database models
+│   ├── routes.py           # Application routes and view logic
+│   ├── scrapers/
+│   │   ├── __init__.py
+│   │   ├── base_scraper.py   # Abstract base class for all scrapers
+│   │   ├── erste_campus_scraper.py
+│   │   ├── four_oh_four_scraper.py
+│   │   ├── henry_scraper.py
+│   │   ├── kekko_sushi_scraper.py
+│   │   └── iki_restaurant_scraper.py # For the PDF menu
+│   ├── services/
+│   │   ├── __init__.py
+│   │   └── scraping_service.py # Manages scheduling and running scrapers
+│   ├── static/
+│   │   ├── css/
+│   │   │   └── style.css     # Main stylesheet
+│   │   └── js/
+│   │       └── main.js       # Frontend JavaScript for Socket.IO
+│   └── templates/
+│       ├── base.html         # Base HTML template
+│       └── index.html        # Main page
+├── instance/
+│   └── app.db              # SQLite database file (will be created here)
+├── .env                    # Environment variables (SECRET_KEY, etc.) - VERY IMPORTANT
+├── .gitignore              # Files to ignore in git
+├── config.py               # Configuration settings (Dev, Prod)
+├── environment.yaml        # Conda environment definition
+└── run.py                  # Main entry point to run the application

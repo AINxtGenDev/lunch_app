@@ -1,21 +1,29 @@
+# environment.yaml (Revised for Stability)
 name: lunch-menu-app
 channels:
-  - defaults
   - conda-forge
+  - defaults
 dependencies:
-  - python=3.13
+  # 1. Use a stable, widely-supported Python version. This is the key fix.
+  - python=3.11
+
+  # 2. Let Conda resolve the latest compatible versions of these packages.
+  #    This is more robust than pinning every version.
+  - flask
+  - flask-socketio
+  - flask-sqlalchemy
+  - beautifulsoup4
+  - requests
+  - selenium
+  - apscheduler
+  - python-socketio
+  - eventlet
+  - lxml
+  - pypdf2
+  - python-dotenv
   - pip
+
+  # 3. Use pip for packages not available on Conda.
   - pip:
-    - Flask==3.1.1
-    - Flask-SocketIO==5.5.1
-    - Flask-SQLAlchemy==3.1.1
-    - beautifulsoup4==4.13.4
-    - requests==2.32.4
-    - selenium==4.34.2
-    - APScheduler==3.11.0
-    - python-socketio==5.13.0
-    - lxml==6.0.0
-    - python-dateutil==2.9.0.post0
-    - PyPDF2==3.0.1
-    - pdfplumber==0.11.7
-    - webdriver-manager==4.0.2
+    - pdfplumber
+    - webdriver-manager

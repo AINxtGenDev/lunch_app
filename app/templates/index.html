@@ -1,0 +1,12 @@
+<!-- app/templates/index.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div id="menu-container" class="menu-grid">
+    <!-- Menus will be dynamically inserted here by JavaScript -->
+    <div class="loading-placeholder">
+        <h2>Loading menus...</h2>
+        <p>Please wait while we fetch the latest delicious offerings.</p>
+    </div>
+</div>
+{% endblock %}

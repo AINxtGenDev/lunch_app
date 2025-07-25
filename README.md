@@ -22,74 +22,43 @@ A Python-based web application that automatically scrapes daily lunch menus from
 
 ## Project Structure
 ```
-.
-├── 00_readme.txt
-├── GEMINI.md
-├── LICENSE
-├── README.md
-├── docs
-├── environment.yaml
-├── init-project-script.sh
-├── logs
-├── models
-│   └── __init__.py
-├── project-structure.txt
-├── quick_start.txt
-├── scrapers
-│   ├── __init__.py
-│   └── base_scraper.py
-├── scripts
-├── static
-│   ├── css
-│   │   └── style.css
-│   ├── images
-│   └── js
-│       └── app.js
-├── templates
-│   ├── base.html
-│   └── index.html
-├── tests
-│   ├── __init__.py
-│   └── conftest.py
-└── utils
-    ├── __init__.py
-    ├── cache.py
-    └── scheduler.py
+lunch-menu-app/
+├── app/
+│   ├── __init__.py         # Application factory (create_app)
+│   ├── models.py           # SQLAlchemy database models
+│   ├── routes.py           # Application routes and view logic
+│   ├── scrapers/
+│   │   ├── __init__.py
+│   │   ├── base_scraper.py   # Abstract base class for all scrapers
+│   │   ├── erste_campus_scraper.py
+│   │   ├── four_oh_four_scraper.py
+│   │   ├── henry_scraper.py
+│   │   ├── kekko_sushi_scraper.py
+│   │   └── iki_restaurant_scraper.py # For the PDF menu
+│   ├── services/
+│   │   ├── __init__.py
+│   │   └── scraping_service.py # Manages scheduling and running scrapers
+│   ├── static/
+│   │   ├── css/
+│   │   │   └── style.css     # Main stylesheet
+│   │   └── js/
+│   │       └── main.js       # Frontend JavaScript for Socket.IO
+│   └── templates/
+│       ├── base.html         # Base HTML template
+│       └── index.html        # Main page
+├── instance/
+│   └── app.db              # SQLite database file (will be created here)
+├── .env                    # Environment variables (SECRET_KEY, etc.) - VERY IMPORTANT
+├── .gitignore              # Files to ignore in git
+├── config.py               # Configuration settings (Dev, Prod)
+├── environment.yaml        # Conda environment definition
+└── run.py                  # Main entry point to run the application
 ```
 
 ## Getting Started
 
-### Prerequisites
-- Python 3.13+
-- Conda for environment management
-- A web browser
-
-### Installation & Setup
-1.  **Clone the repository:**
-    ```bash
-    git clone <repository-url>
-    cd 02_lunch_app
-    ```
-
-2.  **Create and activate the Conda environment:**
-    The `environment.yaml` file contains all the necessary dependencies.
-    ```bash
-    conda env create -f environment.yaml
-    conda activate lunch-menu-app
-    ```
-
-3.  **Initialize the database (if required):**
-    Run the initial setup script if one is provided in the `scripts` directory.
-
-### Running the Application
-1.  **Start the Flask application:**
-    ```bash
-    python app.py 
-    ```
-    *(Note: The main application file might have a different name, check the `scripts` for a run script)*
-
-2.  **Open your browser:**
-    Navigate to `http://127.0.0.1:5000` (or the configured address) to see the application.
+conda env create -f environment.yaml
+conda activate lunch-menu-app
 
 ## License
 This project is licensed under the terms of the LICENSE file.

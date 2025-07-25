@@ -1,0 +1,130 @@
+/* app/static/css/style.css */
+
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --background-color: #ecf0f1;
+    --card-background: #ffffff;
+    --text-color: #34495e;
+    --heading-font: 'Roboto', sans-serif;
+    --body-font: 'Roboto', sans-serif;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: var(--body-font);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    line-height: 1.6;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+header h1 {
+    margin: 0;
+    font-family: var(--heading-font);
+    font-weight: 700;
+}
+
+main {
+    padding: 2rem 1rem;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.restaurant-card {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease-in-out;
+}
+
+.restaurant-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 1rem 1.5rem;
+}
+
+.card-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+    flex-grow: 1;
+}
+
+.card-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.card-body li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.card-body li:last-child {
+    border-bottom: none;
+}
+
+.menu-item-category {
+    font-weight: 700;
+    color: var(--primary-color);
+    display: block;
+    font-size: 1.1em;
+}
+
+.menu-item-description {
+    margin-left: 1rem;
+}
+
+.menu-item-price {
+    float: right;
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+.no-menu {
+    font-style: italic;
+    color: #7f8c8d;
+}
+
+.loading-placeholder, .error-placeholder {
+    grid-column: 1 / -1; /* Span all columns */
+    text-align: center;
+    padding: 3rem;
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+    font-size: 0.9em;
+    color: #7f8c8d;
+}
