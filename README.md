@@ -23,36 +23,89 @@ A Python-based web application that automatically scrapes daily lunch menus from
 ## Project Structure
 ```
 lunch-menu-app/
-├── app/
-│   ├── __init__.py         # Application factory (create_app)
-│   ├── models.py           # SQLAlchemy database models
-│   ├── routes.py           # Application routes and view logic
-│   ├── scrapers/
-│   │   ├── __init__.py
-│   │   ├── base_scraper.py   # Abstract base class for all scrapers
-│   │   ├── erste_campus_scraper.py
-│   │   ├── four_oh_four_scraper.py
-│   │   ├── henry_scraper.py
-│   │   ├── kekko_sushi_scraper.py
-│   │   └── iki_restaurant_scraper.py # For the PDF menu
-│   ├── services/
-│   │   ├── __init__.py
-│   │   └── scraping_service.py # Manages scheduling and running scrapers
-│   ├── static/
-│   │   ├── css/
-│   │   │   └── style.css     # Main stylesheet
-│   │   └── js/
-│   │       └── main.js       # Frontend JavaScript for Socket.IO
-│   └── templates/
-│       ├── base.html         # Base HTML template
-│       └── index.html        # Main page
-├── instance/
-│   └── app.db              # SQLite database file (will be created here)
-├── .env                    # Environment variables (SECRET_KEY, etc.) - VERY IMPORTANT
-├── .gitignore              # Files to ignore in git
-├── config.py               # Configuration settings (Dev, Prod)
-├── environment.yaml        # Conda environment definition
-└── run.py                  # Main entry point to run the application
+.
+├── 00_readme.txt
+├── analyze_erste_campus.py
+├── analyze_iframe_content.py
+├── api_page_props.json
+├── api_response.json
+├── app
+│   ├── errors.py
+│   ├── __init__.py
+│   ├── models.py
+│   ├── __pycache__
+│   │   ├── errors.cpython-311.pyc
+│   │   ├── __init__.cpython-311.pyc
+│   │   ├── models.cpython-311.pyc
+│   │   └── routes.cpython-311.pyc
+│   ├── routes.py
+│   ├── scrapers
+│   │   ├── base_scraper.py
+│   │   ├── erste_campus_scraper.py
+│   │   └── __pycache__
+│   │       ├── base_scraper.cpython-311.pyc
+│   │       ├── erste_campus_api_scraper.cpython-311.pyc
+│   │       ├── erste_campus_scraper.cpython-311.pyc
+│   │       └── gourmet_api_scraper.cpython-311.pyc
+│   ├── services
+│   │   ├── __pycache__
+│   │   │   └── scraping_service.cpython-311.pyc
+│   │   └── scraping_service.py
+│   ├── static
+│   │   ├── css
+│   │   │   └── style.css
+│   │   └── js
+│   │       └── main.js
+│   └── templates
+│       ├── base.html
+│       ├── errors
+│       │   ├── 404.html
+│       │   ├── 500.html
+│       │   └── error.html
+│       └── index.html
+├── app_minimal.py
+├── CLAUDE.md
+├── config.py
+├── config_simple.py
+├── debug_imports.py
+├── diagnose_db_issue.py
+├── download_api_data.py
+├── environment.yaml
+├── error.txt
+├── erste_campus_advanced_scraper.py
+├── erste_campus_final_scraper_fixed.py
+├── erste_campus_final_scraper.py
+├── erste_campus_iframe_content.html
+├── erste_campus_iframe_pretty.html
+├── erste_campus_iframe_scraper.py
+├── erste_campus_nextjs_scraper.py
+├── erste_campus_page.html
+├── erste_campus_rendered.html
+├── erste_campus_selenium_scraper.py
+├── examine_menu_json.py
+├── GEMINI.md
+├── init_db.py
+├── instance
+│   ├── app.db
+│   └── nonce_failure.png
+├── LICENSE
+├── logs
+│   └── lunch_menu_app.log
+├── menu_data.json
+├── page_props.json
+├── project-structure.txt
+├── __pycache__
+│   ├── config.cpython-311.pyc
+│   └── examine_menu_json.cpython-311.pyc
+├── react_data.json
+├── README.md
+├── run.py
+├── selenium_rendered.html
+├── setup_project.py
+├── test_db.py
+├── test_scraper.py
+├── test_scraper_standalone.py
+└── view_iframe_content.py
 ```
 
 ## Getting Started
