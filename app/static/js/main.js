@@ -24,6 +24,32 @@ document.addEventListener('DOMContentLoaded', () => {
         renderMenus(payload.data);
     });
 
+    function getCategoryDataAttr(category) {
+        // Map common category names to data attributes for CSS styling
+        const categoryMap = {
+            'soup': 'soup',
+            'suppe': 'suppe',
+            'salat': 'salat',
+            'salad': 'salad',
+            'main': 'main',
+            'main dish': 'main',
+            'hauptspeise': 'hauptspeise',
+            'dessert': 'dessert',
+            'vegetarisch': 'vegetarisch',
+            'vegetarian': 'vegetarian',
+            'vegan': 'vegetarian',
+            'süßspeise': 'dessert',
+            'beilage': 'main',
+            'side': 'main',
+            'pizza': 'pizza',
+            'salat / suppe': 'salat',
+            'suppe / salat': 'soup'
+        };
+        
+        const mappedCategory = categoryMap[category] || 'main';
+        return `data-category="${mappedCategory}"`;
+    }
+
     function renderMenus(restaurants) {
         const container = document.getElementById('menu-container');
         container.innerHTML = ''; // Clear previous content (like the "Loading..." message)
@@ -46,10 +72,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 itemsHtml = '<ul>';
                 restaurant.items.forEach(item => {
                     const price = item.price ? `<span class="menu-item-price">${item.price}</span>` : '';
+                    const categoryLower = item.category.toLowerCase();
+                    const categoryData = getCategoryDataAttr(categoryLower);
                     itemsHtml += `
                         <li>
                             ${price}
-                            <strong class="menu-item-category">${item.category}</strong>
+                            <strong class="menu-item-category" ${categoryData}>${item.category}</strong>
                             <span class="menu-item-description">${item.description}</span>
                         </li>
                     `;
