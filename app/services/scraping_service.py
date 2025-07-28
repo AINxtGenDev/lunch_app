@@ -1,6 +1,6 @@
 # app/services/scraping_service.py
 from flask import current_app
-from datetime import date
+from datetime import date, timedelta
 from sqlalchemy import func
 from typing import List, Optional
 import logging
@@ -8,6 +8,7 @@ import logging
 from app import db, socketio
 from app.models import Restaurant, MenuItem
 from app.scrapers.erste_campus_scraper import ErsteCampusScraper
+from app.scrapers.fouroh4_scraper import FourOh4Scraper
 
 
 class ScrapingService:
@@ -23,8 +24,8 @@ class ScrapingService:
         # Initialize all scrapers
         self.scrapers = [
             ErsteCampusScraper(),
+            FourOh4Scraper(),
             # Add more scrapers here as they are developed:
-            # FourOhFourScraper(),
             # HenryScraper(),
             # KekkoSushiScraper(),
             # IkiRestaurantScraper(),
