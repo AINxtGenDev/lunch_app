@@ -1,6 +1,7 @@
 /* app/static/css/style.css */
 
 :root {
+<<<<<<< HEAD
     /* Primary Colors - Cool Violet */
     --primary-95: #F4F4FF;
     --primary-90: #E3E4FF;
@@ -85,6 +86,19 @@
     --text-color: var(--neutral-10);
     --text-light: var(--neutral-60);
     --text-dark: var(--neutral-5);
+=======
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    --background-gradient: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+    --card-background: rgba(255, 255, 255, 0.95);
+    --card-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+    --text-color: #2d3748;
+    --text-light: #718096;
+    --text-dark: #1a202c;
+>>>>>>> e87b50f (version 1.6)
     --heading-font: 'Roboto', sans-serif;
     --body-font: 'Roboto', sans-serif;
     --border-radius: 16px;
@@ -159,15 +173,24 @@ main {
     top: 0;
     left: 0;
     right: 0;
+<<<<<<< HEAD
     height: 3px;
     background: var(--hero-gradient);
+=======
+    height: 2px;
+    background: var(--accent-gradient);
+>>>>>>> e87b50f (version 1.6)
     opacity: 0;
     transition: var(--transition);
 }
 
 .restaurant-card:hover {
     transform: translateY(-8px) scale(1.02);
+<<<<<<< HEAD
     box-shadow: var(--card-shadow-hover);
+=======
+    box-shadow: 0 16px 48px rgba(31, 38, 135, 0.5);
+>>>>>>> e87b50f (version 1.6)
 }
 
 .restaurant-card:hover::before {
@@ -175,7 +198,11 @@ main {
 }
 
 .card-header {
+<<<<<<< HEAD
     background: var(--hero-gradient);
+=======
+    background: var(--secondary-gradient);
+>>>>>>> e87b50f (version 1.6)
     color: white;
     padding: 1.2rem 1.5rem;
     position: relative;
@@ -250,7 +277,11 @@ main {
 }
 
 .menu-item-category:nth-child(4n) {
+<<<<<<< HEAD
     background: var(--error-gradient);
+=======
+    background: var(--secondary-gradient);
+>>>>>>> e87b50f (version 1.6)
 }
 
 .menu-item-description {
@@ -278,9 +309,15 @@ main {
     color: var(--text-light);
     text-align: center;
     padding: 2rem;
+<<<<<<< HEAD
     background: linear-gradient(135deg, var(--neutral-95) 0%, var(--surface-95) 100%);
     border-radius: var(--border-radius-small);
     border: 1px dashed var(--neutral-60);
+=======
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+    border-radius: var(--border-radius-small);
+    border: 1px dashed var(--text-light);
+>>>>>>> e87b50f (version 1.6)
 }
 
 .loading-placeholder, .error-placeholder {
@@ -290,7 +327,11 @@ main {
     background: var(--card-background);
     border-radius: var(--border-radius);
     box-shadow: var(--card-shadow);
+<<<<<<< HEAD
     border: 1px solid var(--neutral-90);
+=======
+    border: 1px solid rgba(255, 255, 255, 0.2);
+>>>>>>> e87b50f (version 1.6)
     backdrop-filter: blur(20px);
 }
 
@@ -342,6 +383,7 @@ footer {
     color: #7f8c8d;
 }
 
+<<<<<<< HEAD
 /* Tablet Responsiveness (768px - 1024px) */
 @media screen and (min-width: 769px) and (max-width: 1024px) {
     /* Tablet-specific optimizations */
@@ -376,6 +418,9 @@ footer {
 }
 
 /* Mobile Phones and Small Tablets */
+=======
+/* Mobile and Tablet Responsiveness */
+>>>>>>> e87b50f (version 1.6)
 @media screen and (max-width: 768px) {
     /* Header adjustments for mobile */
     header {
@@ -470,12 +515,19 @@ footer {
     }
 }
 
+<<<<<<< HEAD
 /* Small Mobile Phones */
 @media screen and (max-width: 480px) {
     /* Extra small mobile devices - iPhone SE, small Android */
     header h1 {
         font-size: 1.5rem;
         letter-spacing: -0.01em;
+=======
+@media screen and (max-width: 480px) {
+    /* Extra small mobile devices */
+    header h1 {
+        font-size: 1.5rem;
+>>>>>>> e87b50f (version 1.6)
     }
     
     .date-display {
@@ -483,8 +535,12 @@ footer {
     }
     
     header p {
+<<<<<<< HEAD
         font-size: 0.85rem;
         line-height: 1.4;
+=======
+        font-size: 0.9rem;
+>>>>>>> e87b50f (version 1.6)
     }
     
     /* Smaller logos for very small screens */
@@ -502,7 +558,11 @@ footer {
         right: 10px;
     }
     
+<<<<<<< HEAD
     /* Tighter spacing for small screens */
+=======
+    /* Tighter spacing */
+>>>>>>> e87b50f (version 1.6)
     main {
         padding: 0.75rem 0.5rem;
     }
@@ -514,6 +574,7 @@ footer {
     .card-body {
         padding: 0.75rem;
     }
+<<<<<<< HEAD
     
     /* Enhanced touch targets for small screens */
     .menu-item-category {
@@ -574,4 +635,6 @@ footer {
         flex-direction: column;
         justify-content: center;
     }
+=======
+>>>>>>> e87b50f (version 1.6)
 }
