@@ -9,6 +9,21 @@ Create and activate environment
    conda env update --name lunch-menu-app --file environment.yaml --prune
    
    conda remove --name lunch-menu-app --all
+   
+   
+*) on Raspberry Pi 4
+
+   # Download and install Miniforge for ARM64
+   wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh
+   chmod +x Miniforge3-Linux-aarch64.sh
+   ./Miniforge3-Linux-aarch64.sh
+
+   # Restart shell or source bashrc
+   source ~/.bashrc
+
+   # Create environment from your yaml
+   conda env create -f environment.yaml
+   conda activate lunch-menu-app   
 
 *) Activate the environment
    ##############################
