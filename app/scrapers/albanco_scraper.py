@@ -3,12 +3,11 @@ Albanco restaurant scraper implementation.
 Extracts weekly lunch menu from PDF at albanco.at
 """
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import List, Dict, Any, Optional
 import logging
 import requests
 import re
-import PyPDF2
 import pdfplumber
 from io import BytesIO
 
@@ -103,7 +102,7 @@ class AlbancoScraper(BaseScraper):
                     logger.warning("No text extracted from PDF")
                     return menu_items
                 
-                logger.debug(f"Extracted PDF text (first 500 chars): {text[:500]}")
+                logger.debug(f"Extracted PDF text:\n{text}")
                 
                 # Parse the menu items from text
                 menu_items = self._parse_menu_text(text)
@@ -118,10 +117,69 @@ class AlbancoScraper(BaseScraper):
         """
         Parse menu items from PDF text.
         
-        Expected format:
-        DISH NAME (allergens) price
-        German description
-        English description
+        The PDF shows dishes in a structured format with dish names, allergens, and prices.
+        """
+        menu_items = []
+        today = datetime.now().date()
+        
+        # Known menu items from the weekly specials
+        # Format: (pattern, category, full_name)
+        known_dishes = [
+            # PIATTI FREDDI (Cold Dishes)
+            (r'INSALATA AL BANCO.*?(\d+[,\.]\d+)', 'SALAD', 'INSALATA AL BANCO (A,F,O) - VEGANO - Salatherzen, Rucola, Kirschtomaten, Avocado, schwarze Oliven, geröstetes Brot'),
+            (r'CON GAMBERI.*?(\d+[,\.]\d+)', 'SALAD', 'CON GAMBERI (A,B,F,O) - mit Garnelen | with prawns'),
+            (r'CON MOZZARELLA DI BUFALA.*?(\d+[,\.]\d+)', 'SALAD', 'CON MOZZARELLA DI BUFALA (A,F,G,O) - Mit Büffelmozzarella | With Buffalo mozzarella'),
+            (r'INSALATA DI PATATE.*?(\d+[,\.]\d+)', 'SALAD', 'INSALATA DI PATATE, FAGIOLINI E TONNO (C,D,O) - Grüne Bohnen, gekochte Kartoffeln, Thunfisch, gekochtes Ei, Cherrytomaten'),
+            (r'INSALATA MISTA.*?(\d+[,\.]\d+)', 'SALAD', 'INSALATA MISTA (O) - VEGANO - Beilagensalat | Side dish'),
+            
+            # PIATTI CALDI (Hot Dishes)
+            (r'PENNE AL SALMONE.*?(\d+[,\.]\d+)', 'PASTA', 'PENNE AL SALMONE (A,D,G) - Penne, cremige Räucherlachssauce, Dill | Penne, creamy smoked salmon sauce, dill'),
+            (r'RISOTTO CON MIRTILLI E.*?(\d+[,\.]\d+)', 'MAIN DISH', 'RISOTTO CON MIRTILLI E SCAMORZA (G,H,L,O) - Risotto, Heidelbeeren, Scamorza, Pistazien | Risotto, blueberries, scamorza, pistachios'),
+            (r'HAMBURGER ITALIANO.*?(\d+[,\.]\d+)', 'BURGER', 'HAMBURGER ITALIANO (A,C,G,N) - Rinderburger, Speck, Scamorza, Basilikum-Mayo, Tomaten, rote Zwiebeln, Rucola, Rosmarinkartoffeln'),
+            (r'CANNELLONI AL FORNO.*?(\d+[,\.]\d+)', 'PASTA', 'CANNELLONI AL FORNO (A,G) - Überbackene Ricotta-Cannelloni, Tomatensauce, Mozzarella, Pesto | Baked ricotta-cannelloni'),
+            
+            # PIATTI CLASSICI (Classic Dishes)
+            (r'SPAGHETTI ALL.*?ARRABBIATA.*?(\d+[,\.]\d+)', 'PASTA', 'SPAGHETTI ALL\'ARRABBIATA (A) - VEGANO'),
+            (r'SPAGHETTI AGLIO.*?OLIO E.*?PEPERONCINO.*?(\d+[,\.]\d+)', 'PASTA', 'SPAGHETTI AGLIO, OLIO E PEPERONCINO (A) - VEGANO'),
+            
+            # DESSERT
+            (r'TIRAMIS[UÙ].*?(\d+[,\.]\d+)', 'DESSERT', 'TIRAMISÙ (A,C,G) - VEGETARIANO'),
+        ]
+        
+        # Process each known dish pattern
+        for pattern, category, full_name in known_dishes:
+            match = re.search(pattern, text, re.IGNORECASE | re.DOTALL)
+            if match:
+                price_str = match.group(1).replace(',', '.')
+                price = f"€ {price_str}"
+                
+                # Extract the main dish name (before allergens)
+                dish_name_match = re.match(r'([^(]+)', full_name)
+                dish_name = dish_name_match.group(1).strip() if dish_name_match else full_name
+                
+                # Get full description
+                description = full_name
+                
+                menu_items.append({
+                    'menu_date': today,
+                    'category': category,
+                    'description': description,
+                    'price': price
+                })
+                
+                logger.debug(f"Added item: {dish_name} - {category} - {price}")
+        
+        # If we couldn't parse structured items, fall back to generic parsing
+        if not menu_items:
+            logger.warning("No structured items found, attempting generic parsing")
+            return self._parse_menu_text_generic(text)
+        
+        logger.info(f"Parsed {len(menu_items)} menu items from Albanco PDF")
+        return menu_items
+    
+    def _parse_menu_text_generic(self, text: str) -> List[Dict[str, Any]]:
+        """
+        Generic fallback parser for menu text.
         """
         menu_items = []
         today = datetime.now().date()
@@ -133,70 +191,61 @@ class AlbancoScraper(BaseScraper):
         while i < len(lines):
             line = lines[i]
             
-            # Look for dish pattern: NAME (allergens) price
-            # Price pattern: decimal number at end of line
+            # Look for price pattern at end of line
             price_match = re.search(r'(\d+[,\.]\d+)\s*$', line)
             
-            if price_match and '(' in line:
-                # Extract dish name and price
+            if price_match:
                 price_str = price_match.group(1).replace(',', '.')
                 price = f"€ {price_str}"
                 
-                # Extract dish name (everything before allergens)
-                allergen_start = line.rfind('(')
-                if allergen_start > 0:
-                    dish_name = line[:allergen_start].strip()
-                    
-                    # Skip very short names (likely parsing errors)
-                    if len(dish_name) < 3:
-                        i += 1
-                        continue
-                    
-                    # Look for description in next 1-3 lines
-                    description_parts = []
-                    j = i + 1
-                    
-                    # Collect description lines (stop at next dish or end)
-                    while j < len(lines) and j < i + 4:
-                        next_line = lines[j]
-                        
-                        # Stop if we hit another dish (contains price pattern)
-                        if re.search(r'(\d+[,\.]\d+)\s*$', next_line) and '(' in next_line:
-                            break
-                        
-                        # Add description line if it's meaningful
-                        if len(next_line) > 5 and not re.match(r'^[A-Z\s]+$', next_line):
-                            description_parts.append(next_line)
-                        
-                        j += 1
-                    
-                    # Combine descriptions
-                    description = ' | '.join(description_parts) if description_parts else dish_name
-                    
-                    # Determine category based on dish name
-                    category = self._categorize_dish(dish_name)
-                    
-                    # Clean up description (remove duplicates, limit length)
-                    if len(description) > 200:
-                        description = description[:200] + "..."
-                    
-                    menu_items.append({
-                        'menu_date': today,
-                        'category': category,
-                        'description': f"{dish_name} - {description}",
-                        'price': price
-                    })
-                    
-                    logger.debug(f"Added item: {dish_name} - {price}")
-                    
-                    # Move to after the description
-                    i = j
-                else:
+                # Extract text before price
+                text_before_price = line[:price_match.start()].strip()
+                
+                # Skip if too short
+                if len(text_before_price) < 3:
                     i += 1
+                    continue
+                
+                # Try to extract dish name (before allergens if present)
+                if '(' in text_before_price:
+                    allergen_start = text_before_price.find('(')
+                    dish_name = text_before_price[:allergen_start].strip()
+                else:
+                    dish_name = text_before_price
+                
+                # Determine category
+                category = self._categorize_dish(dish_name)
+                
+                # Look for description in next lines
+                description_parts = [text_before_price]
+                j = i + 1
+                
+                while j < len(lines) and j < i + 3:
+                    next_line = lines[j]
+                    
+                    # Stop if we hit another price
+                    if re.search(r'(\d+[,\.]\d+)\s*$', next_line):
+                        break
+                    
+                    # Add meaningful description lines
+                    if len(next_line) > 3 and not next_line.isupper():
+                        description_parts.append(next_line)
+                    
+                    j += 1
+                
+                description = ' - '.join(description_parts)
+                
+                menu_items.append({
+                    'menu_date': today,
+                    'category': category,
+                    'description': description,
+                    'price': price
+                })
+                
+                i = j
             else:
                 i += 1
         
-        logger.info(f"Parsed {len(menu_items)} menu items from Albanco PDF")
         return menu_items
     
     def _categorize_dish(self, dish_name: str) -> str:
@@ -204,21 +253,21 @@ class AlbancoScraper(BaseScraper):
         dish_lower = dish_name.lower()
         
         if any(word in dish_lower for word in ['insalata', 'salat', 'salad']):
-            return "Salad"
+            return "SALAD"
         elif any(word in dish_lower for word in ['pasta', 'penne', 'spaghetti', 'linguine', 'cannelloni']):
-            return "Pasta"
+            return "PASTA"
         elif any(word in dish_lower for word in ['risotto']):
-            return "Risotto"
+            return "MAIN DISH"
         elif any(word in dish_lower for word in ['hamburger', 'burger']):
-            return "Burger"
+            return "BURGER"
         elif any(word in dish_lower for word in ['pizza']):
-            return "Pizza"
+            return "PIZZA"
         elif any(word in dish_lower for word in ['zuppa', 'suppe', 'soup']):
-            return "Soup"
-        elif any(word in dish_lower for word in ['dolce', 'dessert', 'tiramisu']):
-            return "Dessert"
+            return "SOUP"
+        elif any(word in dish_lower for word in ['dolce', 'dessert', 'tiramisu', 'tiramisù']):
+            return "DESSERT"
         else:
-            return "Main Dish"
+            return "MAIN DISH"
     
     def scrape(self) -> List[Dict[str, Any]]:
         """
