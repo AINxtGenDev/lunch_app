@@ -11,6 +11,8 @@ from app.scrapers.erste_campus_scraper import ErsteCampusScraper
 from app.scrapers.fouroh4_scraper import FourOh4Scraper
 from app.scrapers.henry_scraper import HenryScraper
 from app.scrapers.iki_scraper import IKIScraper
+from app.scrapers.cafegeorge_scraper import CafeGeorgeScraper
+from app.scrapers.campusbraeu_scraper import CampusBrauScraper
 
 
 class ScrapingService:
@@ -29,6 +31,8 @@ class ScrapingService:
             FourOh4Scraper(),
             HenryScraper(),
             IKIScraper(),
+            CafeGeorgeScraper(),
+            CampusBrauScraper(),
             # Add more scrapers here as they are developed:
             # KekkoSushiScraper(),
         ]
