@@ -1,44 +1,131 @@
 /* app/static/css/style.css */
 
 :root {
-    --primary-color: #2c3e50;
-    --secondary-color: #3498db;
-    --background-color: #ecf0f1;
-    --card-background: #ffffff;
-    --text-color: #34495e;
+    /* Primary Colors - Cool Violet */
+    --primary-95: #F4F4FF;
+    --primary-90: #E3E4FF;
+    --primary-80: #C4C7FF;
+    --primary-70: #A5A9FF;
+    --primary-60: #868BFF;
+    --primary-50: #6B70FF;
+    --primary-40: #5E60CE;
+    --primary-30: #4A4C9D;
+    --primary-20: #36386C;
+    --primary-10: #22243B;
+    --primary-5: #16172A;
+    
+    /* Secondary Colors - Saturated Teal */
+    --secondary-95: #F0FFFE;
+    --secondary-90: #CCFFF9;
+    --secondary-80: #80FFF0;
+    --secondary-70: #33FFE7;
+    --secondary-60: #00E6CC;
+    --secondary-50: #00CCB3;
+    --secondary-40: #00B399;
+    --secondary-30: #009980;
+    --secondary-20: #008066;
+    --secondary-10: #00664D;
+    --secondary-5: #004D3A;
+    
+    /* Neutral Colors */
+    --neutral-100: #FFFFFF;
+    --neutral-99: #FFFBFF;
+    --neutral-98: #FEF8FF;
+    --neutral-95: #F7F3F8;
+    --neutral-90: #E8E4E9;
+    --neutral-80: #CAC6CB;
+    --neutral-70: #ADA9AE;
+    --neutral-60: #928E93;
+    --neutral-50: #787478;
+    --neutral-40: #5F5B60;
+    --neutral-30: #474349;
+    --neutral-20: #302D32;
+    --neutral-10: #1B181C;
+    --neutral-5: #120F13;
+    --neutral-0: #000000;
+    
+    /* Surface Colors */
+    --surface-98: #FEF8FF;
+    --surface-95: #F7F3F8;
+    --surface-90: #E8E4E9;
+    --surface-container: #E8E4E9;
+    --surface-container-high: #E2DDE2;
+    --surface-container-highest: #DCD7DC;
+    
+    /* Semantic Colors */
+    --success-95: #F2FFF0;
+    --success-50: #2EBF1A;
+    --success-40: #259F15;
+    --success-30: #1C7F11;
+    
+    --warning-95: #FFF8E6;
+    --warning-50: #E6B400;
+    --warning-40: #CC9F00;
+    --warning-30: #B38B00;
+    
+    --error-95: #FFEDE9;
+    --error-50: #E6351B;
+    --error-40: #CC2B17;
+    --error-30: #B32113;
+    
+    /* Gradients */
+    --primary-gradient: linear-gradient(135deg, var(--primary-40) 0%, var(--primary-30) 80%);
+    --secondary-gradient: linear-gradient(135deg, var(--secondary-40) 0%, var(--secondary-30) 75%);
+    --accent-gradient: linear-gradient(135deg, var(--secondary-50) 0%, var(--secondary-40) 100%);
+    --success-gradient: linear-gradient(135deg, var(--success-50) 0%, var(--success-40) 100%);
+    --warning-gradient: linear-gradient(135deg, var(--warning-50) 0%, var(--warning-40) 100%);
+    --error-gradient: linear-gradient(135deg, var(--error-50) 0%, var(--error-40) 100%);
+    --background-gradient: linear-gradient(120deg, var(--neutral-99) 0%, var(--primary-95) 50%, var(--secondary-95) 100%);
+    --hero-gradient: linear-gradient(135deg, var(--primary-60) 0%, var(--primary-40) 60%, var(--secondary-50) 100%);
+    
+    /* UI Properties */
+    --card-background: rgba(255, 255, 255, 0.95);
+    --card-shadow: 0 8px 32px rgba(94, 96, 206, 0.15);
+    --card-shadow-hover: 0 16px 48px rgba(94, 96, 206, 0.25);
+    --text-color: var(--neutral-10);
+    --text-light: var(--neutral-60);
+    --text-dark: var(--neutral-5);
     --heading-font: 'Roboto', sans-serif;
     --body-font: 'Roboto', sans-serif;
-    --border-radius: 8px;
-    --box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    --border-radius: 16px;
+    --border-radius-small: 12px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
     font-family: var(--body-font);
-    background-color: var(--background-color);
+    background: var(--background-gradient);
     color: var(--text-color);
     margin: 0;
     line-height: 1.6;
+    min-height: 100vh;
 }
 
 header {
-    background-color: var(--primary-color);
+    background: var(--primary-gradient);
     color: white;
     padding: 2rem 1rem;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-shadow: var(--card-shadow);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 header h1 {
     margin: 0;
     font-family: var(--heading-font);
-    font-weight: 700;
+    font-weight: 800;
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: -0.02em;
 }
 
 .date-display {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     margin: 0.5rem 0;
-    font-weight: 300;
-    opacity: 0.9;
+    font-weight: 400;
+    opacity: 0.95;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 main {
@@ -54,28 +141,68 @@ main {
 }
 
 .restaurant-card {
-    background-color: var(--card-background);
+    background: var(--card-background);
     border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--card-shadow);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: transform 0.2s ease-in-out;
+    transition: var(--transition);
+    position: relative;
+}
+
+.restaurant-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--hero-gradient);
+    opacity: 0;
+    transition: var(--transition);
 }
 
 .restaurant-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.restaurant-card:hover::before {
+    opacity: 1;
 }
 
 .card-header {
-    background-color: var(--secondary-color);
+    background: var(--hero-gradient);
     color: white;
-    padding: 1rem 1.5rem;
+    padding: 1.2rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+}
+
+.restaurant-card:hover .card-header::after {
+    transform: translateX(100%);
 }
 
 .card-header h2 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .card-body {
@@ -100,32 +227,71 @@ main {
 
 .menu-item-category {
     font-weight: 700;
-    color: var(--primary-color);
-    display: block;
-    font-size: 1.1em;
+    color: var(--text-dark);
+    display: inline-block;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    margin-bottom: 0.5rem;
+    background: var(--success-gradient);
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    transition: var(--transition);
+}
+
+.menu-item-category:nth-child(2n) {
+    background: var(--accent-gradient);
+}
+
+.menu-item-category:nth-child(3n) {
+    background: var(--warning-gradient);
+}
+
+.menu-item-category:nth-child(4n) {
+    background: var(--error-gradient);
 }
 
 .menu-item-description {
-    margin-left: 1rem;
+    margin-left: 0;
+    margin-top: 0.3rem;
+    color: var(--text-color);
+    line-height: 1.5;
+    font-weight: 400;
 }
 
 .menu-item-price {
     float: right;
-    font-weight: bold;
-    color: var(--secondary-color);
+    font-weight: 800;
+    background: var(--primary-gradient);
+    color: white;
+    padding: 0.25rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    margin-left: 0.5rem;
 }
 
 .no-menu {
     font-style: italic;
-    color: #7f8c8d;
+    color: var(--text-light);
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--neutral-95) 0%, var(--surface-95) 100%);
+    border-radius: var(--border-radius-small);
+    border: 1px dashed var(--neutral-60);
 }
 
 .loading-placeholder, .error-placeholder {
-    grid-column: 1 / -1; /* Span all columns */
+    grid-column: 1 / -1;
     text-align: center;
     padding: 3rem;
     background: var(--card-background);
     border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--neutral-90);
+    backdrop-filter: blur(20px);
 }
 
 .rotating-logo {
@@ -174,4 +340,238 @@ footer {
     margin-top: 2rem;
     font-size: 0.9em;
     color: #7f8c8d;
+}
+
+/* Tablet Responsiveness (768px - 1024px) */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    /* Tablet-specific optimizations */
+    .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+        padding: 0 1rem;
+    }
+    
+    header h1 {
+        font-size: 2.2rem;
+    }
+    
+    .card-header h2 {
+        font-size: 1.4rem;
+    }
+    
+    /* Touch-friendly tap targets for tablets */
+    .restaurant-card {
+        min-height: 280px;
+    }
+    
+    .rotating-logo {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .ai-duck-logo {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+/* Mobile Phones and Small Tablets */
+@media screen and (max-width: 768px) {
+    /* Header adjustments for mobile */
+    header {
+        padding: 1.5rem 0.75rem;
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .date-display {
+        font-size: 1rem;
+    }
+    
+    /* Main content padding */
+    main {
+        padding: 1rem 0.75rem;
+    }
+    
+    /* Grid adjustments for mobile */
+    .menu-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin: 0;
+    }
+    
+    /* Restaurant card adjustments */
+    .restaurant-card {
+        margin: 0 auto;
+        max-width: 100%;
+    }
+    
+    .card-header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .card-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .card-body li {
+        padding: 0.5rem 0;
+    }
+    
+    /* Menu item text sizing */
+    .menu-item-category {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.6rem;
+        margin-bottom: 0.4rem;
+    }
+    
+    .menu-item-description {
+        margin-left: 0;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        margin-top: 0.2rem;
+    }
+    
+    .menu-item-price {
+        clear: both;
+        float: none;
+        display: inline-block;
+        margin-top: 0.5rem;
+        font-size: 0.85rem;
+        padding: 0.2rem 0.6rem;
+    }
+    
+    /* Logo adjustments for mobile */
+    .rotating-logo {
+        width: 80px;
+        height: 80px;
+        top: 15px;
+        left: 15px;
+    }
+    
+    .ai-duck-logo {
+        width: 60px;
+        height: 60px;
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    /* Footer adjustments */
+    footer {
+        padding: 1.5rem 0.75rem;
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+}
+
+/* Small Mobile Phones */
+@media screen and (max-width: 480px) {
+    /* Extra small mobile devices - iPhone SE, small Android */
+    header h1 {
+        font-size: 1.5rem;
+        letter-spacing: -0.01em;
+    }
+    
+    .date-display {
+        font-size: 0.9rem;
+    }
+    
+    header p {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+    
+    /* Smaller logos for very small screens */
+    .rotating-logo {
+        width: 60px;
+        height: 60px;
+        top: 10px;
+        left: 10px;
+    }
+    
+    .ai-duck-logo {
+        width: 50px;
+        height: 50px;
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    /* Tighter spacing for small screens */
+    main {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .menu-grid {
+        gap: 0.75rem;
+    }
+    
+    .card-body {
+        padding: 0.75rem;
+    }
+    
+    /* Enhanced touch targets for small screens */
+    .menu-item-category {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.5rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .menu-item-price {
+        font-size: 0.8rem;
+        padding: 0.15rem 0.5rem;
+    }
+}
+
+/* High DPI Displays (Retina) - Common on mobile devices */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    /* Enhance gradients and shadows for high-DPI displays */
+    .restaurant-card {
+        box-shadow: var(--card-shadow), inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    
+    .card-header {
+        text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    .menu-item-category,
+    .menu-item-price {
+        text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* Remove hover effects on touch devices */
+    .restaurant-card:hover {
+        transform: none;
+        box-shadow: var(--card-shadow);
+    }
+    
+    .restaurant-card:hover::before {
+        opacity: 0;
+    }
+    
+    .restaurant-card:hover .card-header::after {
+        transform: translateX(-100%);
+    }
+    
+    /* Add touch feedback instead */
+    .restaurant-card:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+    }
+    
+    /* Larger touch targets */
+    .card-body li {
+        min-height: 44px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 }
