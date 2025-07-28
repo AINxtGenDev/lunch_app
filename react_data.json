@@ -1,0 +1,18 @@
+{
+  "assetPrefix": "/mealplan/2025",
+  "buildId": "X9scG9sCeIjXjqy-lGqF1",
+  "gsp": true,
+  "isFallback": false,
+  "page": "/external/single/[slug]",
+  "props": {
+    "__N_SSG": true,
+    "pageProps": {
+      "language": "en",
+      "restaurantSlug": "kantine"
+    }
+  },
+  "query": {
+    "slug": "kantine-en"
+  },
+  "scriptLoader": []
+}

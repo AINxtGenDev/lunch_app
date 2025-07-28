@@ -1,27 +1,61 @@
 # config.py
 import os
+from datetime import timedelta
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
+# Get the absolute base directory
 basedir = os.path.abspath(os.path.dirname(__file__))
+
+# Load environment variables
 load_dotenv(os.path.join(basedir, '.env'))
 
-class Config:
-    """Base configuration."""
-    # SECURITY WARNING: Don't use this secret key in production!
-    # Generate a real one with `python -c 'import secrets; print(secrets.token_hex())'`
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'a-very-secret-key-that-you-should-change'
-    
-    # Database configuration
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'instance', 'app.db')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    # App specific config
-    RESTAURANTS_TO_SCRAPE = {
-        'Erste Campus': 'https://erstecampus.at/en/kantine-am-campus-menu/',
-        '4o4': 'https://4oh4.at/en/lunch-menu-en/',
-        'Henry': 'https://www.enjoyhenry.com/menuplan-bdo/',
-        'Kekko Sushi': 'https://www.kekkosushi.com/menu/',
-        'IKI': 'https://iki-restaurant.at/wp-content/uploads/sites/2/2025/07/Lunch-KW-30.pdf' # Note: This URL is likely to change weekly
-    }
+class Config:
+    """Base configuration with security best practices."""
+    
+    # Security Configuration
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-secret-key-please-change-in-production'
+    
+    # Session Security
+    SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = 'Lax'
+    PERMANENT_SESSION_LIFETIME = timedelta(hours=24)
+    
+    # Database Configuration - Use absolute path
+    # Option 1: Simple relative path (SQLAlchemy will handle it)
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        f'sqlite:///{os.path.join(basedir, "instance", "app.db")}'
+    
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    
+    # Rate Limiting Configuration
+    RATELIMIT_STORAGE_URL = 'memory://'
+    RATELIMIT_DEFAULT_LIMITS = ["200 per day", "50 per hour"]
+    
+    # CORS Configuration
+    CORS_ORIGINS = []
+    
+    # Scraping Configuration
+    SCRAPING_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+    SCRAPING_TIMEOUT = 30
+    SCRAPING_RETRY_COUNT = 3
+    SCRAPING_RETRY_DELAY = 5
+
+
+class DevelopmentConfig(Config):
+    """Development configuration."""
+    DEBUG = True
+    
+
+class ProductionConfig(Config):
+    """Production configuration."""
+    DEBUG = False
+    SESSION_COOKIE_SECURE = True
+    
+
+config = {
+    'development': DevelopmentConfig,
+    'production': ProductionConfig,
+    'default': DevelopmentConfig
+}
