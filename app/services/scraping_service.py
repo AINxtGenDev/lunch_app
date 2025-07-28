@@ -10,6 +10,7 @@ from app.models import Restaurant, MenuItem
 from app.scrapers.erste_campus_scraper import ErsteCampusScraper
 from app.scrapers.fouroh4_scraper import FourOh4Scraper
 from app.scrapers.henry_scraper import HenryScraper
+from app.scrapers.iki_scraper import IKIScraper
 
 
 class ScrapingService:
@@ -27,9 +28,9 @@ class ScrapingService:
             ErsteCampusScraper(),
             FourOh4Scraper(),
             HenryScraper(),
+            IKIScraper(),
             # Add more scrapers here as they are developed:
             # KekkoSushiScraper(),
-            # IkiRestaurantScraper(),
         ]
         
         self.logger.info(f"Initialized ScrapingService with {len(self.scrapers)} scrapers")
