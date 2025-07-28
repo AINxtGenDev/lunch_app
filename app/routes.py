@@ -14,7 +14,8 @@ def index():
     """
     Serves the main page of the application.
     """
-    return render_template("index.html")
+    current_date = datetime.now().strftime("%A, %B %d, %Y")
+    return render_template("index.html", current_date=current_date)
 
 
 @main.route("/api/menus")

@@ -78,3 +78,11 @@ The codebase includes several standalone scripts for debugging:
 - `erste_campus_*_scraper.py`: Various iterations of scraper development
 - `analyze_*.py`: Tools for analyzing scraped content
 - `view_iframe_content.py`: Inspect iframe content from websites
+
+## Technology Stack
+- **Python 3.11+** with Conda environment management
+- **Flask** web framework with extensions: Flask-SocketIO, Flask-SQLAlchemy, Flask-Limiter
+- **BeautifulSoup4** and **Selenium** for web scraping
+- **SQLite** database (located at `instance/app.db`)
+- **APScheduler** for cron-like scheduling
+- **Frontend**: Vanilla JavaScript with Socket.IO client for real-time updates

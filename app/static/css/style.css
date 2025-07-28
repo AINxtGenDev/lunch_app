@@ -34,6 +34,13 @@ header h1 {
     font-weight: 700;
 }
 
+.date-display {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+    font-weight: 300;
+    opacity: 0.9;
+}
+
 main {
     padding: 2rem 1rem;
 }
