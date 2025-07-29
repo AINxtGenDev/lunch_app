@@ -22,7 +22,7 @@ dependencies:
   - pip
   - gunicorn       # For production deployment
   - eventlet
-  
+
   - pip:
     - pdfplumber
     - webdriver-manager
