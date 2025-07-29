@@ -78,6 +78,8 @@ header {
     padding: 1.5rem 1rem;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
 }
 
 header h1 {
@@ -90,10 +92,15 @@ header h1 {
 }
 
 .date-display {
-    font-size: 1.1rem;
-    margin: 0.5rem 0;
-    font-weight: 400;
-    opacity: 0.9;
+    font-size: 1.4rem;
+    margin: 0.75rem auto;
+    font-weight: 600;
+    opacity: 1;
+    letter-spacing: 0.02em;
+    color: var(--text-on-dark);
+    text-align: center;
+    display: block;
+    width: 100%;
 }
 
 header p {
@@ -396,8 +403,8 @@ footer p:last-child {
     }
     
     .date-display {
-        font-size: 1.1rem;
-        font-weight: 500;
+        font-size: 1.2rem;
+        font-weight: 600;
     }
     
     header p {
@@ -481,8 +488,8 @@ footer p:last-child {
     }
     
     .date-display {
-        font-size: 1rem;
-        font-weight: 600;
+        font-size: 1.1rem;
+        font-weight: 700;
     }
     
     header p {
