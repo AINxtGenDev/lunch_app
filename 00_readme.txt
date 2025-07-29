@@ -23,7 +23,11 @@ Create and activate environment
 
    # Create environment from your yaml
    conda env create -f environment.yaml
-   conda activate lunch-menu-app   
+   conda activate lunch-menu-app
+   
+   # For webdriver-manager, you might need to specify Chrome ARM64
+   # Make sure you have chromium-browser installed:
+   sudo apt install chromium-browser chromium-chromedriver
 
 *) Activate the environment
    ##############################

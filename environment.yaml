@@ -20,6 +20,8 @@ dependencies:
   - python-dotenv
   - redis-py
   - pip
+  - gunicorn       # For production deployment
+  - eventlet
   
   - pip:
     - pdfplumber
