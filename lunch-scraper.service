@@ -1,0 +1,21 @@
+[Unit]
+Description=Lunch Menu Daily Scraper
+After=network.target
+
+[Service]
+Type=oneshot
+User=stecher
+Group=stecher
+WorkingDirectory=/home/stecher/lunch_app
+Environment="PATH=/home/stecher/miniforge3/envs/lunch-menu-app/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Environment="CONDA_DEFAULT_ENV=lunch-menu-app"
+Environment="HOME=/home/stecher"
+ExecStart=/home/stecher/miniforge3/envs/lunch-menu-app/bin/python /home/stecher/lunch_app/manual_scrape_today.py
+StandardOutput=journal
+StandardError=journal
+
+# Retry configuration
+Restart=on-failure
+RestartSec=300
+StartLimitBurst=3
+StartLimitInterval=3600

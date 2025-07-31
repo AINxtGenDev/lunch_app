@@ -1,0 +1,15 @@
+[Unit]
+Description=Run Lunch Menu Scraper Daily at 5 AM
+Requires=lunch-scraper.service
+
+[Timer]
+# Run daily at 5:00 AM
+OnCalendar=daily
+OnCalendar=*-*-* 05:00:00
+# Run on startup if missed (e.g., if Pi was off at 5 AM)
+Persistent=true
+# Randomize by up to 5 minutes to avoid server load spikes
+RandomizedDelaySec=300
+
+[Install]
+WantedBy=timers.target

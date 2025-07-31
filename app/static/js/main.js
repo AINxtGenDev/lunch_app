@@ -50,6 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return `data-category="${mappedCategory}"`;
     }
 
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
     function renderMenus(restaurants) {
         const container = document.getElementById('menu-container');
         container.innerHTML = ''; // Clear previous content (like the "Loading..." message)
@@ -71,14 +77,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (restaurant.items && restaurant.items.length > 0) {
                 itemsHtml = '<ul>';
                 restaurant.items.forEach(item => {
-                    const price = item.price ? `<span class="menu-item-price">${item.price}</span>` : '';
+                    const price = item.price ? `<span class="menu-item-price">${escapeHtml(item.price)}</span>` : '';
                     const categoryLower = item.category.toLowerCase();
                     const categoryData = getCategoryDataAttr(categoryLower);
                     itemsHtml += `
                         <li>
                             ${price}
-                            <strong class="menu-item-category" ${categoryData}>${item.category}</strong>
-                            <span class="menu-item-description">${item.description}</span>
+                            <strong class="menu-item-category" ${categoryData}>${escapeHtml(item.category)}</strong>
+                            <span class="menu-item-description">${escapeHtml(item.description)}</span>
                         </li>
                     `;
                 });
@@ -87,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             card.innerHTML = `
                 <div class="card-header">
-                    <h2>${restaurant.name}</h2>
+                    <h2>${escapeHtml(restaurant.name)}</h2>
                 </div>
                 <div class="card-body">
                     ${itemsHtml}

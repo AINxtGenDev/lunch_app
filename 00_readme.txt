@@ -61,6 +61,29 @@ Common useful commands
 
 ---> use conda install instead of pip when possible <---
 
+
+Run the installation script with sudo:
+  sudo bash install_scraper_timer.sh
+
+  What this solution provides:
+
+  1. Systemd Service (lunch-scraper.service): Runs the scraping task once
+  2. Systemd Timer (lunch-scraper.timer): Schedules the service to run daily at 5:00 AM
+  3. Benefits over crontab:
+    - Better logging with journalctl
+    - Automatic retries on failure
+    - Persistent (runs missed jobs if Pi was off)
+    - Better integration with systemd
+    - Proper environment handling
+
+  After installation, you can:
+
+  - Check timer status: systemctl status lunch-scraper.timer
+  - View next scheduled run: systemctl list-timers lunch-scraper.timer
+  - Check last scrape logs: journalctl -u lunch-scraper.service -n 50
+  - Run manually: sudo systemctl start lunch-scraper.service
+  - Disable if needed: sudo systemctl disable lunch-scraper.timer
+
 #######################################################################
 ## git 
 #######################################################################
