@@ -79,7 +79,8 @@ lunch_app/
 │   │   ├── iki_scraper.py            # IKI Restaurant PDF scraper
 │   │   ├── cafegeorge_scraper.py     # Cafe George iframe scraper
 │   │   ├── campusbraeu_scraper.py    # Campus Bräu HTML scraper
-│   │   └── albanco_scraper.py        # Albanco weekly PDF scraper
+│   │   ├── albanco_scraper.py        # Albanco weekly PDF scraper
+│   │   └── chrome_driver_setup.py    # Chrome WebDriver configuration
 │   ├── services/
 │   │   └── scraping_service.py       # Orchestrates all scrapers
 │   ├── static/
@@ -102,29 +103,105 @@ lunch_app/
 ├── logs/
 │   └── lunch_menu_app.log            # Application logs with rotation
 ├── config.py                         # Flask configuration (dev/prod)
+├── config_simple.py                  # Simplified configuration module
 ├── environment.yaml                  # Conda environment specification
 ├── init_db.py                        # Database initialization script
 ├── run.py                            # Application entry point
-├── manual_scrape.py                  # Manual scraping trigger (all restaurants)
-├── manual_scrape_albanco.py          # Individual restaurant scraper test
-├── manual_scrape_campusbraeu.py     # Individual restaurant scraper test
-├── test_scraper.py                   # Comprehensive scraper testing
+├── gunicorn_config.py               # Gunicorn WSGI server configuration
+├── setup_project.py                 # Project setup utility
+├── manual_scrape.py                 # Manual scraping trigger (all restaurants)
+├── manual_scrape_today.py           # Manual scraping for today's menus
+├── manual_scrape_albanco.py         # Individual restaurant scraper test
+├── manual_scrape_campusbraeu.py    # Individual restaurant scraper test
+├── test_scraper.py                  # Comprehensive scraper testing
 ├── test_scraper_standalone.py       # Standalone scraper tests
-├── test_db.py                        # Database operations testing
-├── diagnose_db_issue.py              # Database diagnostics utility
-├── analyze_*.py                      # Website analysis tools for each restaurant
+├── test_scraper_direct.py           # Direct scraper invocation tests
+├── test_db.py                       # Database operations testing
+├── diagnose_db_issue.py             # Database diagnostics utility
+├── check_db_today.py                # Check today's database entries
+├── analyze_*.py                     # Website analysis tools for each restaurant
 │   ├── analyze_erste_campus.py      # Erste Campus website analyzer
 │   ├── analyze_4oh4.py              # 4oh4 website analyzer
 │   ├── analyze_henry.py             # Henry BDO website analyzer
 │   ├── analyze_iki.py               # IKI Restaurant analyzer
 │   ├── analyze_cafegeorge.py        # Cafe George analyzer
 │   ├── analyze_campusbraeu.py       # Campus Bräu analyzer
-│   └── analyze_albanco.py           # Albanco analyzer
+│   ├── analyze_albanco.py           # Albanco analyzer
+│   ├── analyze_iframe_content.py    # iframe content analyzer
+│   ├── analyze_price_simple.py      # Simple price parsing analysis
+│   └── analyze_price_structure.py   # Price structure analysis
 ├── test_*_scraper.py                # Individual scraper unit tests
+│   ├── test_4oh4_scraper.py         # 4oh4 scraper tests
+│   ├── test_cafegeorge_scraper.py   # Cafe George scraper tests
+│   ├── test_henry_scraper.py        # Henry scraper tests
+│   ├── test_iki_scraper.py          # IKI scraper tests
+│   ├── test_cafegeorge_iframe.py    # Cafe George iframe tests
+│   ├── test_pdf_extraction.py       # PDF extraction tests
+│   ├── test_pdf_plumber.py          # PDF plumber library tests
+│   └── test_price_extraction.py     # Price extraction tests
+├── debug_*.py                       # Debug utilities for troubleshooting
+│   ├── debug_4oh4_scraper.py        # 4oh4 scraper debugging
+│   ├── debug_4oh4_structure.py      # 4oh4 structure analysis
+│   ├── debug_cafegeorge_scraper.py  # Cafe George scraper debugging
+│   ├── debug_cafegeorge_structure.py # Cafe George structure analysis
+│   ├── debug_actual_scraper.py      # Active scraper debugging
+│   ├── debug_imports.py             # Import debugging utility
+│   ├── debug_parser_flow.py         # Parser flow debugging
+│   └── debug_price_parsing.py       # Price parsing debugging
+├── erste_campus_*.py                # Erste Campus scraper variations
+│   ├── erste_campus_advanced_scraper.py
+│   ├── erste_campus_final_scraper.py
+│   ├── erste_campus_final_scraper_fixed.py
+│   ├── erste_campus_iframe_scraper.py
+│   ├── erste_campus_nextjs_scraper.py
+│   ├── erste_campus_scraper_fixed.py
+│   └── erste_campus_selenium_scraper.py
+├── *.html                           # Downloaded HTML content for analysis
+│   ├── 4oh4_*.html                  # 4oh4 restaurant HTML samples
+│   ├── albanco_*.html               # Albanco HTML samples
+│   ├── cafegeorge_*.html            # Cafe George HTML samples
+│   ├── campusbraeu_*.html           # Campus Bräu HTML samples
+│   ├── erste_campus_*.html          # Erste Campus HTML samples
+│   ├── henry_*.html                 # Henry BDO HTML samples
+│   └── iki_*.html                   # IKI restaurant HTML samples
+├── *.json                           # JSON data files
+│   ├── api_page_props.json          # API page properties
+│   ├── api_response.json            # API response samples
+│   ├── menu_data.json               # Menu data structure
+│   ├── page_props.json              # Page properties
+│   └── react_data.json              # React component data
+├── *.txt                            # Text files and extracts
+│   ├── 00_readme.txt                # Quick readme notes
+│   ├── div.txt                      # HTML div content
+│   ├── iki_extracted_text.txt       # IKI extracted text
+│   ├── iki_lunch_specials.txt       # IKI lunch specials
+│   └── iki_tageskarte.txt           # IKI daily menu card
+├── *.pdf                            # PDF menu samples
+│   └── albanco_KW31.pdf             # Albanco weekly menu PDF
+├── *.sh                             # Shell scripts
+│   ├── check_app_status.sh          # Application status checker
+│   ├── check_autostart.sh           # Autostart verification
+│   ├── daily_scrape.sh              # Daily scraping script
+│   ├── debug_service.sh             # Service debugging
+│   ├── deploy_to_raspberry.sh       # Raspberry Pi deployment
+│   ├── find_conda_paths.sh          # Conda path finder
+│   └── install_scraper_timer.sh     # Systemd timer installer
+├── *.service / *.timer              # Systemd service files
+│   ├── lunch-app.service            # Main application service
+│   ├── lunch-scraper.service        # Scraper service
+│   └── lunch-scraper.timer          # Scraper timer
 ├── view_iframe_content.py           # iframe content inspection tool
+├── download_api_data.py             # API data downloader
+├── examine_menu_json.py             # Menu JSON examiner
+├── find_current_lunch_pdf.py        # PDF finder utility
+├── Caddyfile                        # Caddy web server configuration
 ├── CLAUDE.md                        # Development instructions for Claude
+├── GEMINI.md                        # Development instructions for Gemini
 ├── LICENSE                          # Project license
-└── README.md                        # This comprehensive documentation
+├── README.md                        # This comprehensive documentation
+└── project-structure.txt            # Generated project structure
+
+16 directories, 148 files
 ```
 
 ## Architecture Overview
@@ -238,16 +315,23 @@ Access the application:
 # Test individual scrapers
 python test_scraper.py
 python test_scraper_standalone.py
+python test_scraper_direct.py
 
 # Test specific restaurant scrapers
-python manual_scrape_albanco.py
-python manual_scrape_campusbraeu.py
+python test_4oh4_scraper.py
+python test_cafegeorge_scraper.py
+python test_henry_scraper.py
+python test_iki_scraper.py
+
+# Manual scraping commands
+python manual_scrape.py              # Scrape all restaurants
+python manual_scrape_today.py        # Scrape today's menus only
+python manual_scrape_albanco.py      # Individual restaurant test
+python manual_scrape_campusbraeu.py  # Individual restaurant test
 
 # Test database operations
 python test_db.py
-
-# Manual scraping (useful in debug mode)
-python manual_scrape.py
+python check_db_today.py             # Check today's database entries
 
 # Database diagnostics
 python diagnose_db_issue.py
@@ -260,6 +344,28 @@ python analyze_iki.py
 python analyze_cafegeorge.py
 python analyze_campusbraeu.py
 python analyze_albanco.py
+python analyze_iframe_content.py
+python analyze_price_simple.py
+python analyze_price_structure.py
+
+# Debug utilities
+python debug_4oh4_scraper.py
+python debug_cafegeorge_scraper.py
+python debug_actual_scraper.py
+python debug_imports.py
+python debug_parser_flow.py
+python debug_price_parsing.py
+
+# PDF testing utilities
+python test_pdf_extraction.py
+python test_pdf_plumber.py
+python find_current_lunch_pdf.py
+
+# Deployment scripts
+bash deploy_to_raspberry.sh          # Deploy to Raspberry Pi
+bash install_scraper_timer.sh        # Install systemd timer
+bash check_app_status.sh             # Check application status
+bash daily_scrape.sh                 # Run daily scraping manually
 ```
 
 ### Configuration
@@ -339,6 +445,43 @@ The application uses an ultra-high contrast color system optimized for mobile re
 - **Environment**: Conda for consistent dependency management
 - **Scheduling**: APScheduler for reliable background task execution
 - **Performance**: Optimized CSS and JavaScript for fast mobile rendering
+- **Web Server**: Gunicorn WSGI server with configuration included
+
+### Systemd Service Configuration
+The project includes systemd service files for production deployment:
+
+#### lunch-app.service
+- Main application service for the Flask web server
+- Runs the application with Gunicorn WSGI server
+- Auto-restarts on failure
+
+#### lunch-scraper.service & lunch-scraper.timer
+- Scheduled scraping service with systemd timer
+- Runs daily scraping at 5:00 AM
+- Separate from main app for reliability
+
+Installation:
+```bash
+# Copy service files to systemd
+sudo cp lunch-app.service /etc/systemd/system/
+sudo cp lunch-scraper.service /etc/systemd/system/
+sudo cp lunch-scraper.timer /etc/systemd/system/
+
+# Enable and start services
+sudo systemctl enable lunch-app.service
+sudo systemctl enable lunch-scraper.timer
+sudo systemctl start lunch-app.service
+sudo systemctl start lunch-scraper.timer
+
+# Check status
+sudo systemctl status lunch-app.service
+sudo systemctl status lunch-scraper.timer
+```
+
+### Web Server Configuration
+- **Caddy**: Included Caddyfile for reverse proxy setup
+- **Gunicorn**: Production WSGI server configuration in `gunicorn_config.py`
+- **Default Port**: 5000 (configurable in environment)
 
 ### Mobile Network Setup
 For mobile access on your local network:
