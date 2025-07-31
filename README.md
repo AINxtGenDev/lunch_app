@@ -225,9 +225,6 @@ conda activate lunch-menu-app
 # Initialize database
 python init_db.py
 
-# Scrap data manually
-python manual_scrape_today.py
-
 # Run the application
 python run.py
 ```

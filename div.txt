@@ -1,0 +1,43 @@
+python test_price_extraction.py
+Testing Erste Campus scraper with price extraction...
+============================================================
+INFO:scraper:Starting scrape for Erste Campus
+INFO:app.scrapers.chrome_driver_setup:Successfully created Chrome WebDriver using system ChromeDriver
+INFO:scraper:Successfully scraped 9 items from Erste Campus
+
+✅ Successfully scraped 9 menu items!
+
+📋 Main Dishes found: 5
+------------------------------------------------------------
+
+Main Dish 1:
+  📅 Date: 2025-07-31
+  📝 Description: Fried pork filet cauliflower rice / avocado-tomato salsa
+  💰 Price: € 15.50
+
+Main Dish 2:
+  📅 Date: 2025-07-31
+  📝 Description: Creamy spinach scrambled eggs / boiled potatoes
+  💰 Price: € 14.10
+
+Main Dish 3:
+  📅 Date: 2025-07-31
+  📝 Description: Vegan soy "beuschel" with bread dumplings
+  💰 Price: € 13.30
+
+Main Dish 4:
+  📅 Date: 2025-07-31
+  📝 Description: Vegetable-potato stir fry aioli / rocket
+  💰 Price: € 11.20
+
+Main Dish 5:
+  📅 Date: 2025-07-31
+  📝 Description: Chicken curry with pineapple / carrots / basamati rice
+  💰 Price: € 15.50
+
+📊 Statistics:
+  - Total main dishes: 5
+  - Main dishes with prices: 5
+  - Main dishes without prices: 0
+
+✅ SUCCESS: All main dishes have prices!

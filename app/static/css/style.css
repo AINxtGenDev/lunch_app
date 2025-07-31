@@ -350,15 +350,15 @@ footer {
     text-align: center;
     padding: 3rem 2rem;
     margin-top: 4rem;
-    background-color: #fafafa;
-    border-top: 2px solid var(--border-color);
+    background-color: #2a2a2a;
+    border-top: 2px solid #444444;
 }
 
 footer p {
     margin: 1rem auto;
     font-size: 1rem;
     line-height: 1.8;
-    color: var(--text-secondary);
+    color: #e0e0e0;
     font-weight: 400;
     max-width: 1200px;
 }
@@ -366,11 +366,12 @@ footer p {
 footer p:first-child {
     font-size: 0.95rem;
     line-height: 1.9;
+    color: #b0b0b0;
 }
 
 footer p:last-child {
     font-size: 1.1rem;
-    color: var(--primary-blue);
+    color: #4CAF50;
     font-weight: 600;
     margin-top: 1.5rem;
 }
@@ -462,8 +463,8 @@ footer p:last-child {
     }
     
     .rotating-logo {
-        width: 160px;
-        height: 160px;
+        width: 100px;
+        height: 100px;
         top: 15px;
         left: 15px;
     }
@@ -539,8 +540,8 @@ footer p:last-child {
     }
     
     .rotating-logo {
-        width: 120px;
-        height: 120px;
+        width: 80px;
+        height: 80px;
         top: 10px;
         left: 10px;
     }

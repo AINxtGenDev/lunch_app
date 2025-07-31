@@ -5,17 +5,14 @@ Café George restaurant scraper implementation.
 from datetime import datetime
 from typing import List, Dict, Any, Optional
 import logging
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import time
 
 from .base_scraper import BaseScraper
+from .chrome_driver_setup import get_chrome_driver
 
 logger = logging.getLogger(__name__)
 
@@ -38,17 +35,8 @@ class CafeGeorgeScraper(BaseScraper):
         driver = None
         
         try:
-            # Configure Chrome options
-            chrome_options = Options()
-            chrome_options.add_argument("--headless")
-            chrome_options.add_argument("--no-sandbox")
-            chrome_options.add_argument("--disable-dev-shm-usage")
-            chrome_options.add_argument("--disable-gpu")
-            chrome_options.add_argument("--window-size=1920,1080")
-            
-            # Initialize the driver
-            service = Service(ChromeDriverManager().install())
-            driver = webdriver.Chrome(service=service, options=chrome_options)
+            # Initialize the driver using ARM64-compatible setup
+            driver = get_chrome_driver()
             
             # Load the iframe URL directly (same system as 4oh4)
             iframe_url = "https://erstecampus.at/mealplan/2025/external/single/george-en.html"
@@ -56,13 +44,16 @@ class CafeGeorgeScraper(BaseScraper):
             
             driver.get(iframe_url)
             
-            # Wait for content to load
-            WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.TAG_NAME, "body"))
-            )
-            
-            # Additional wait for dynamic content
-            time.sleep(2)
+            # Wait for meal cards to load
+            try:
+                WebDriverWait(driver, 15).until(
+                    EC.presence_of_element_located((By.CLASS_NAME, "meal-card"))
+                )
+                # Additional wait for all cards to render
+                time.sleep(2)
+            except:
+                logger.warning("Meal cards not found within timeout, proceeding anyway")
+                time.sleep(5)  # Give more time for content to load
             
             # Get the page source and parse with BeautifulSoup
             page_source = driver.page_source
@@ -100,9 +91,10 @@ class CafeGeorgeScraper(BaseScraper):
                     price = None
                     price_elem = card.find('div', class_='meal-card-price')
                     if price_elem:
-                        price_span = price_elem.find('span')
-                        if price_span:
-                            price = price_span.get_text(strip=True)
+                        # Look for text containing €
+                        price_text = price_elem.get_text(strip=True)
+                        if '€' in price_text:
+                            price = price_text
                     
                     # Extract category from meal-card-header
                     category = "Main Dish"

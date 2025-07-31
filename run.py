@@ -16,7 +16,7 @@ config_name = os.environ.get("FLASK_ENV", "development")
 app = create_app(config_name=config_name)
 
 if __name__ == "__main__":
-    # Security: In production, use a proper WSGI server like Gunicorn
+    # Development server (DO NOT use in production)
     socketio.run(
         app,
         host="127.0.0.1",  # Bind to localhost only in development

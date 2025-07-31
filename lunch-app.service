@@ -1,0 +1,19 @@
+[Unit]
+Description=Lunch Menu Flask Application
+After=network.target
+
+[Service]
+User=stecher
+Group=stecher
+WorkingDirectory=/home/stecher/lunch_app
+Environment="PATH=/home/stecher/miniforge3/envs/lunch-menu-app/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Environment="CONDA_DEFAULT_ENV=lunch-menu-app"
+Environment="HOME=/home/stecher"
+ExecStart=/home/stecher/miniforge3/envs/lunch-menu-app/bin/python /home/stecher/miniforge3/envs/lunch-menu-app/bin/gunicorn --config /home/stecher/lunch_app/gunicorn_config.py run:app
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

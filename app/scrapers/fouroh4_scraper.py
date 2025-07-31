@@ -5,17 +5,14 @@
 from datetime import datetime
 from typing import List, Dict, Any, Optional
 import logging
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import time
 
 from .base_scraper import BaseScraper
+from .chrome_driver_setup import get_chrome_driver
 
 logger = logging.getLogger(__name__)
 
@@ -38,17 +35,8 @@ class FourOh4Scraper(BaseScraper):
         driver = None
         
         try:
-            # Configure Chrome options
-            chrome_options = Options()
-            chrome_options.add_argument("--headless")
-            chrome_options.add_argument("--no-sandbox")
-            chrome_options.add_argument("--disable-dev-shm-usage")
-            chrome_options.add_argument("--disable-gpu")
-            chrome_options.add_argument("--window-size=1920,1080")
-            
-            # Initialize the driver
-            service = Service(ChromeDriverManager().install())
-            driver = webdriver.Chrome(service=service, options=chrome_options)
+            # Initialize the driver using ARM64-compatible setup
+            driver = get_chrome_driver()
             
             # Load the iframe URL directly
             iframe_url = "https://4oh4.at/mealplan/2025/external/single/4oh4.html"
@@ -56,13 +44,16 @@ class FourOh4Scraper(BaseScraper):
             
             driver.get(iframe_url)
             
-            # Wait for content to load
-            WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.TAG_NAME, "body"))
-            )
-            
-            # Additional wait for dynamic content
-            time.sleep(3)
+            # Wait for meal cards to load
+            try:
+                WebDriverWait(driver, 15).until(
+                    EC.presence_of_element_located((By.CLASS_NAME, "meal-card"))
+                )
+                # Additional wait for all cards to render
+                time.sleep(2)
+            except:
+                logger.warning("Meal cards not found within timeout, proceeding anyway")
+                time.sleep(5)  # Give more time for content to load
             
             # Get the page source and parse with BeautifulSoup
             page_source = driver.page_source
@@ -78,13 +69,30 @@ class FourOh4Scraper(BaseScraper):
             # Extract menu items from meal cards
             for card in meal_cards:
                 try:
-                    # Extract title from meal-card-title
+                    # Extract category from meal-card-header
+                    category = "Main Dish"
+                    header_elem = card.find('div', class_='meal-card-header')
+                    if header_elem:
+                        header_text = header_elem.get_text(strip=True)
+                        if header_text:
+                            # Map German categories to English
+                            category_map = {
+                                'Salat / Suppe': 'Salad / Soup',
+                                'Hauptspeise': 'Main Dish',
+                                'Pizza': 'Pizza',
+                                'Dessert': 'Dessert'
+                            }
+                            category = category_map.get(header_text, header_text)
+                    
+                    # Extract title from meal-card-title (if present)
+                    title = ""
                     title_elem = card.find('div', class_='meal-card-title')
-                    title = title_elem.get_text(strip=True) if title_elem else "Unknown Dish"
+                    if title_elem:
+                        title = title_elem.get_text(strip=True)
                     
                     # Extract description from meal-card-text
-                    text_elem = card.find('div', class_='meal-card-text')
                     description = ""
+                    text_elem = card.find('div', class_='meal-card-text')
                     if text_elem:
                         # Get text and replace <br> tags with space
                         for br in text_elem.find_all('br'):
@@ -92,35 +100,35 @@ class FourOh4Scraper(BaseScraper):
                         description = text_elem.get_text(strip=True)
                     
                     # Combine title and description
-                    full_description = title
-                    if description:
-                        full_description += f" - {description}"
+                    full_description = ""
+                    if title and description:
+                        full_description = f"{title} - {description}"
+                    elif title:
+                        full_description = title
+                    elif description:
+                        full_description = description
                     
                     # Extract price from meal-card-price
                     price = None
                     price_elem = card.find('div', class_='meal-card-price')
                     if price_elem:
-                        price_span = price_elem.find('span')
-                        if price_span:
-                            price = price_span.get_text(strip=True)
+                        # Look for text containing €
+                        price_text = price_elem.get_text(strip=True)
+                        if '€' in price_text:
+                            price = price_text
                     
-                    # Extract category from meal-card-header or data-category
-                    category = "Main Dish"
-                    header_elem = card.find('div', class_='meal-card-header')
-                    if header_elem:
-                        header_text = header_elem.get_text(strip=True)
-                        if header_text:
-                            category = header_text
-                    
-                    # Alternative: check data-category attribute
-                    data_category = card.get('data-category')
-                    if data_category:
-                        if data_category == "appetizer":
-                            category = "Salat / Suppe"
-                        elif data_category == "main":
-                            category = "Main Dish"
-                        elif data_category == "dessert":
-                            category = "Dessert"
+                    # Also check data-category attribute as fallback
+                    if category == "Main Dish":  # Only use if no header found
+                        data_category = card.get('data-category')
+                        if data_category:
+                            if data_category == "appetizer":
+                                category = "Salad / Soup"
+                            elif data_category == "main-dish":
+                                category = "Main Dish"
+                            elif data_category == "pizza":
+                                category = "Pizza"
+                            elif data_category == "dessert":
+                                category = "Dessert"
                     
                     # Skip empty items
                     if not full_description or len(full_description.strip()) < 3:

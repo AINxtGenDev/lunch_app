@@ -5,18 +5,15 @@ Henry (enjoyhenry.com) restaurant scraper implementation.
 from datetime import datetime
 from typing import List, Dict, Any, Optional
 import logging
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import time
 import re
 
 from .base_scraper import BaseScraper
+from .chrome_driver_setup import get_chrome_driver
 
 logger = logging.getLogger(__name__)
 
@@ -39,17 +36,8 @@ class HenryScraper(BaseScraper):
         driver = None
         
         try:
-            # Configure Chrome options
-            chrome_options = Options()
-            chrome_options.add_argument("--headless")
-            chrome_options.add_argument("--no-sandbox")
-            chrome_options.add_argument("--disable-dev-shm-usage")
-            chrome_options.add_argument("--disable-gpu")
-            chrome_options.add_argument("--window-size=1920,1080")
-            
-            # Initialize the driver
-            service = Service(ChromeDriverManager().install())
-            driver = webdriver.Chrome(service=service, options=chrome_options)
+            # Initialize the driver using ARM64-compatible setup
+            driver = get_chrome_driver()
             
             logger.info(f"Loading Henry menu page: {self.url}")
             driver.get(self.url)

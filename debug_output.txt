@@ -1,0 +1,182 @@
+INFO:app.scrapers.chrome_driver_setup:Successfully created Chrome WebDriver using system ChromeDriver
+
+>>> Found category 'Soup' at line 13
+
+  === Starting new item at line 14 ===
+    Line 14: 'Chicken broth'
+      -> Added to description
+    Line 15: 'profiteroles'
+      -> Added to description
+    Line 16: 'A'
+      -> Is allergen line
+      -> Skipping allergen at line 16: 'A'
+      -> Skipping allergen at line 17: 'C'
+      -> Skipping allergen at line 18: 'L'
+      -> Skipped 3 allergen lines, now at line 19
+      -> Checking line 19 for price: 'SOUP'
+      -> Not a price line
+  === Completed item ===
+      Description: 'Chicken broth profiteroles'
+      Price: '' (empty=True)
+      -> Added to menu_items
+
+>>> Found category 'Soup' at line 19
+
+  === Starting new item at line 20 ===
+    Line 20: 'Sweet potato-coconut soup'
+      -> Added to description
+    Line 21: 'L'
+      -> Is allergen line
+      -> Skipping allergen at line 21: 'L'
+      -> Skipped 1 allergen lines, now at line 22
+      -> Checking line 22 for price: 'MAIN DISH'
+      -> Not a price line
+  === Completed item ===
+      Description: 'Sweet potato-coconut soup'
+      Price: '' (empty=True)
+      -> Added to menu_items
+
+>>> Found category 'Main Dish' at line 22
+
+  === Starting new item at line 23 ===
+    Line 23: 'Fried pork filet'
+      -> Added to description
+    Line 24: 'cauliflower rice/ avocado-tomato salsa'
+      -> Added to description
+    Line 25: '€ 15.50'
+      -> Direct price found: '€ 15.50'
+  === Completed item ===
+      Description: 'Fried pork filet cauliflower rice / avocado-tomato salsa'
+      Price: '€ 15.50' (empty=False)
+      -> Added to menu_items
+
+>>> Found category 'Main Dish' at line 26
+
+  === Starting new item at line 27 ===
+    Line 27: 'Creamy spinach'
+      -> Added to description
+    Line 28: 'scrambled eggs/ boiled potatoes'
+      -> Added to description
+    Line 29: 'A'
+      -> Is allergen line
+      -> Skipping allergen at line 29: 'A'
+      -> Skipping allergen at line 30: 'C'
+      -> Skipping allergen at line 31: 'G'
+      -> Skipped 3 allergen lines, now at line 32
+      -> Checking line 32 for price: '€ 14.10'
+      -> FOUND PRICE: '€ 14.10'
+  === Completed item ===
+      Description: 'Creamy spinach scrambled eggs / boiled potatoes'
+      Price: '€ 14.10' (empty=False)
+      -> Added to menu_items
+
+>>> Found category 'Main Dish' at line 33
+
+  === Starting new item at line 34 ===
+    Line 34: 'Vegan soy "beuschel" with bread dumplings'
+      -> Added to description
+    Line 35: 'A'
+      -> Is allergen line
+      -> Skipping allergen at line 35: 'A'
+      -> Skipping allergen at line 36: 'F'
+      -> Skipping allergen at line 37: 'L'
+      -> Skipping allergen at line 38: 'M'
+      -> Skipped 4 allergen lines, now at line 39
+      -> Checking line 39 for price: '€ 13.30'
+      -> FOUND PRICE: '€ 13.30'
+  === Completed item ===
+      Description: 'Vegan soy "beuschel" with bread dumplings'
+      Price: '€ 13.30' (empty=False)
+      -> Added to menu_items
+
+>>> Found category 'Main Dish' at line 40
+
+  === Starting new item at line 41 ===
+    Line 41: 'Vegetable-potato stir fry'
+      -> Added to description
+    Line 42: 'aioli/ rocket'
+      -> Added to description
+    Line 43: 'F'
+      -> Is allergen line
+      -> Skipping allergen at line 43: 'F'
+      -> Skipped 1 allergen lines, now at line 44
+      -> Checking line 44 for price: '€ 11.20'
+      -> FOUND PRICE: '€ 11.20'
+  === Completed item ===
+      Description: 'Vegetable-potato stir fry aioli / rocket'
+      Price: '€ 11.20' (empty=False)
+      -> Added to menu_items
+
+>>> Found category 'Main Dish' at line 45
+
+  === Starting new item at line 46 ===
+    Line 46: 'Chicken curry with pineapple/ carrots/ basamati rice'
+      -> Added to description
+    Line 47: 'G'
+      -> Is allergen line
+      -> Skipping allergen at line 47: 'G'
+      -> Skipping allergen at line 48: 'L'
+      -> Skipping allergen at line 49: 'N'
+      -> Skipped 3 allergen lines, now at line 50
+      -> Checking line 50 for price: '€ 15.50'
+      -> FOUND PRICE: '€ 15.50'
+  === Completed item ===
+      Description: 'Chicken curry with pineapple / carrots / basamati rice'
+      Price: '€ 15.50' (empty=False)
+      -> Added to menu_items
+
+>>> Found category 'Dessert' at line 51
+
+  === Starting new item at line 52 ===
+    Line 52: 'Chia-vanilla cream with apricot sauce'
+      -> Added to description
+    Line 53: 'F'
+      -> Is allergen line
+      -> Skipping allergen at line 53: 'F'
+      -> Skipping allergen at line 54: 'O'
+      -> Skipped 2 allergen lines, now at line 55
+      -> Checking line 55 for price: 'DESSERTS'
+      -> Not a price line
+  === Completed item ===
+      Description: 'Chia-vanilla cream with apricot sauce'
+      Price: '' (empty=True)
+      -> Added to menu_items
+
+>>> Found category 'Dessert' at line 55
+
+  === Starting new item at line 56 ===
+    Line 56: 'Nougat cake'
+      -> Added to description
+    Line 57: 'hazelnuts'
+      -> Added to description
+    Line 58: 'A'
+      -> Is allergen line
+      -> Skipping allergen at line 58: 'A'
+      -> Skipping allergen at line 59: 'C'
+      -> Skipping allergen at line 60: 'G'
+      -> Skipping allergen at line 61: 'H'
+      -> Skipped 4 allergen lines, now at line 62
+      -> Checking line 62 for price: '/external/single/kantine-en.html?date=2025-07-31'
+      -> Not a price line
+  === Completed item ===
+      Description: 'Nougat cake hazelnuts'
+      Price: '' (empty=True)
+      -> Added to menu_items
+
+  === Starting new item at line 62 ===
+    Line 62: '/external/single/kantine-en.html?date=2025-07-31'
+      -> Added to description
+  === Completed item ===
+      Description: ''
+      Price: '' (empty=True)
+      -> Skipped (description too short or empty)
+
+
+=== FINAL RESULTS ===
+Total items: 9
+Main dishes: 5
+1. Fried pork filet cauliflower rice / avocado-tomato... | Price: € 15.50
+2. Creamy spinach scrambled eggs / boiled potatoes... | Price: € 14.10
+3. Vegan soy "beuschel" with bread dumplings... | Price: € 13.30
+4. Vegetable-potato stir fry aioli / rocket... | Price: € 11.20
+5. Chicken curry with pineapple / carrots / basamati ... | Price: € 15.50

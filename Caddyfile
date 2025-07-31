@@ -1,0 +1,84 @@
+# =================================================================
+# Caddyfile: Production Configuration
+# Manages all services hosted on this server.
+# =================================================================
+
+# -----------------------------------------------------------------
+# Service 1: Multiplayer Snake Game
+# Domain: https://amarmax.duckdns.org:10556
+# -----------------------------------------------------------------
+amarmax.duckdns.org:10556 {
+    # Automatic HTTPS using Let's Encrypt.
+    # An email is best practice for certificate issuance and recovery.
+    tls otto.kuegerl@gmail.com
+
+    # Dedicated log file for the snake game for easier debugging.
+    log {
+        output file /var/log/caddy/snake-game.log
+        level INFO
+    }
+
+    # Reverse proxy all requests to the Node.js application running on port 10555.
+    reverse_proxy localhost:10555 {
+        # These headers are critical for WebSocket proxying (used by Socket.IO).
+        # They ensure the backend application receives the correct host and IP info.
+        header_up Host {http.request.host}
+        header_up X-Real-IP {http.request.remote}
+        header_up X-Forwarded-For {http.request.remote}
+        header_up X-Forwarded-Proto {http.request.scheme}
+    }
+}
+
+# -----------------------------------------------------------------
+# Service 2: Tennis Ranking App
+# Domain: https://nechvatal.duckdns.org:10443
+# -----------------------------------------------------------------
+nechvatal.duckdns.org {
+    # Automatic HTTPS using Let's Encrypt.
+    tls otto.kuegerl@gmail.com
+
+    # Dedicated log file for the tennis app.
+    log {
+        output file /var/log/caddy/nechvatal.log
+        level ERROR
+    }
+
+    # Reverse proxy all requests to the Gunicorn application running on port 8000.
+    reverse_proxy localhost:8000 {
+        # The same headers are applied here for consistency and best practice,
+        # and are required for WebSocket functionality in this app as well.
+        header_up Host {http.request.host}
+        header_up X-Real-IP {http.request.remote}
+        header_up X-Forwarded-For {http.request.remote}
+        header_up X-Forwarded-Proto {http.request.scheme}
+    }
+}
+
+# -----------------------------------------------------------------
+# Service 3: Lunch App (Meal Plan Checker)
+# Domain: https://mealplanchecker.duckdns.org:10557
+# -----------------------------------------------------------------
+mealplanchecker.duckdns.org:10557 {
+    # Automatic HTTPS using Let's Encrypt.
+    tls otto.kuegerl@gmail.com
+
+    # Dedicated log file for the lunch app for easier debugging.
+    log {
+        output file /var/log/caddy/lunch-app.log
+        level INFO
+    }
+
+    # Reverse proxy all requests to the Flask/Gunicorn application running on port 7000.
+    reverse_proxy localhost:7000 {
+        # These headers are critical for WebSocket proxying (used by Flask-SocketIO).
+        # They ensure the backend application receives the correct host and IP info.
+        header_up Host {http.request.host}
+        header_up X-Real-IP {http.request.remote}
+        header_up X-Forwarded-For {http.request.remote}
+        header_up X-Forwarded-Proto {http.request.scheme}
+        
+        # Additional headers for Flask-SocketIO WebSocket support
+        header_up Upgrade {http.request.header.Upgrade}
+        header_up Connection {http.request.header.Connection}
+    }
+}
