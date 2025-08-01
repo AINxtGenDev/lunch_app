@@ -48,7 +48,7 @@ class AlbancoScraper(BaseScraper):
             logger.warning(f"Could not access PDF for KW{current_week}: {e}")
         
         # Try previous month if current month fails
-        prev_month = datetime.now().replace(day=1) - datetime.timedelta(days=1)
+        prev_month = datetime.now().replace(day=1) - timedelta(days=1)
         prev_month_str = prev_month.strftime('%m')
         
         pdf_url_prev = f"https://albanco.at/wp-content/uploads/sites/3/{current_year}/{prev_month_str}/la4_KW{current_week}.pdf"
