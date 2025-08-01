@@ -66,15 +66,6 @@ The Lunch Menu Aggregator is a **professionally developed, production-ready Pyth
 - **Input Validation**: Date parameter validation in routes
 - **Logging**: Security events properly logged
 
-### ⚠️ Security Recommendations
-
-**CRITICAL: Environment File Exposure**
-```bash
-# Current issue: .env file contains secrets
-SECRET_KEY=01984109-7095-78df-b547-1ad22ee796e4
-```
-**Recommendation**: Add `.env` to `.gitignore` immediately to prevent secret exposure.
-
 **Medium Priority Improvements**:
 1. **Secret Rotation**: Implement regular SECRET_KEY rotation
 2. **HTTPS Enforcement**: Enable `SESSION_COOKIE_SECURE` in production
