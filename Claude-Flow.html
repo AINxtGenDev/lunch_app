@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Using Claude‑Flow in a Local Project</title>
+  <!-- Modern colourful styling -->
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      margin: 0;
+    }
+    header {
+      background: linear-gradient(120deg, #6a11cb 0%, #2575fc 100%);
+      color: #fff;
+      padding: 40px 60px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    header p {
+      margin-top: 10px;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    section {
+      padding: 30px 60px;
+    }
+    h2 {
+      color: #2575fc;
+      margin-top: 40px;
+      font-size: 1.6rem;
+    }
+    ul {
+      margin: 10px 0 20px 20px;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+    code {
+      background: #eef2f9;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-family: Consolas, "Courier New", monospace;
+    }
+    footer {
+      background: #f0f2f5;
+      padding: 20px 60px;
+      font-size: 0.85rem;
+      color: #555;
+    }
+    footer a {
+      color: #2575fc;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    .citations {
+      border-top: 1px solid #ccd5e0;
+      margin-top: 40px;
+      padding-top: 10px;
+    }
+    .citations p {
+      margin: 4px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Getting Started with Claude‑Flow</h1>
+    <p>How to initialise, orchestrate and run swarms to review and optimise a local project</p>
+  </header>
+
+  <section>
+    <h2>1. Check prerequisites</h2>
+    <p>Claude‑Flow sits on top of <em>Claude Code</em>, so you need both Node.js (v18 or later) and Anthropic’s CLI installed. Once Claude Code is installed globally (<code>npm install -g @anthropic-ai/claude-code</code>), run it with the permission flag:</p>
+    <ul>
+      <li>Execute <code>claude --dangerously-skip-permissions</code> once and accept the prompt. This grants Claude Code access to your file system and is required for Claude‑Flow to operate correctly【458005720463375†L151-L159】.</li>
+    </ul>
+
+    <h2>2. Initialise Claude‑Flow in your project</h2>
+    <p>Open a terminal in your project directory (e.g., <code>/home/werner/development/02_lunch_app/lunch_app</code>) and initialise Claude‑Flow. Two common options exist:</p>
+    <ul>
+      <li><strong>SPARC development environment:</strong> running <code>npx claude-flow@latest init --sparc</code> creates a local <code>./claude‑flow</code> wrapper, a <code>.claude/</code> configuration folder, a <code>CLAUDE.md</code> file with project instructions and pre‑configured SPARC and swarm commands【458005720463375†L136-L150】.</li>
+      <li><strong>Auto‑MCP initialisation:</strong> the v2 alpha version adds automatic Model Context Protocol (MCP) tools and hooks. Use <code>npx --yes claude-flow@alpha init --force</code> to overwrite existing settings and enable these capabilities【980844967369429†L48-L56】.</li>
+    </ul>
+    <p>After initialising, use the local wrapper (<code>./claude-flow</code>) instead of repeatedly calling <code>npx</code> – it preserves your working directory and loads the correct settings【418129044042058†L312-L323】.</p>
+
+    <h2>3. Start the orchestrator (optional)</h2>
+    <p>Claude‑Flow can launch a monitoring interface to watch agents in real time. Run:</p>
+    <ul>
+      <li><code>./claude-flow start --ui</code> – opens a dashboard on your chosen port (default 3000) where you can see agent activity and system health【458005720463375†L204-L221】.</li>
+      <li>For a headless background process, use <code>./claude-flow start</code> without the UI.</li>
+    </ul>
+
+    <h2>4. Run SPARC tasks</h2>
+    <p>Before orchestrating large swarms, get comfortable with SPARC (Specification → Pseudocode → Architecture → Refinement → Completion) workflows:</p>
+    <ul>
+      <li><code>./claude-flow sparc "build and test my project"</code> – spawns architect, coder, tester and other agents to design, implement and test your code【458005720463375†L165-L169】.</li>
+      <li><code>./claude-flow sparc modes</code> – lists the 17+ specialised SPARC modes (architect, coder, TDD, security, DevOps, etc.)【458005720463375†L136-L150】.</li>
+      <li><code>./claude-flow sparc run architect "review my project"</code> – runs a specific mode to focus on a single task【458005720463375†L190-L200】.</li>
+    </ul>
+
+    <h2>5. Use swarm mode for large‑scale review and optimisation</h2>
+    <p>Swarm mode spawns a “queen” agent and multiple specialised workers to tackle complex tasks concurrently. Its basic syntax is:</p>
+    <pre><code>./claude-flow swarm "Task description" --strategy &lt;strategy&gt; --agents &lt;N&gt; [flags]</code></pre>
+    <p>The <em>task description</em> should be a clear natural‑language description of your goal (e.g., “review and optimise my project”). Key options include:</p>
+    <ul>
+      <li><strong>--strategy</strong> – collaboration style: <code>development</code>, <code>research</code>, <code>parallel</code>, <code>hierarchical</code>, etc.【55820130079483†L203-L218】.</li>
+      <li><strong>--agents</strong> – number of worker agents to deploy【55820130079483†L203-L218】.</li>
+      <li><strong>--claude</strong> – instructs the swarm to use Claude for generation and coordination【55820130079483†L203-L221】.</li>
+      <li>Additional flags such as <code>--review</code> for code reviews, <code>--monitor</code> for live progress, <code>--memory-namespace</code> to isolate context, and <code>--ui</code> for an interactive interface.</li>
+    </ul>
+    <p>Example command to review and improve your lunch app:</p>
+    <pre><code>./claude-flow swarm "Review and optimise my project" \
+  --strategy development \
+  --agents 6 \
+  --review --monitor --claude</code></pre>
+    <p>This tells the queen to break down the review and optimisation task and delegate it to six agents (e.g., developers, testers, reviewers). You can specify more advanced configurations (topology, max agents, parallelism) via <code>--topology</code>, <code>--max-agents</code> and related options【511710148952558†L185-L217】.</p>
+
+    <h2>6. Monitor and interact with the swarm</h2>
+    <p>While the swarm is running, several commands help you observe and manage the agents:</p>
+    <ul>
+      <li><code>./claude-flow status</code> or <code>./claude-flow monitor</code> – displays real‑time metrics and progress【418129044042058†L216-L231】.</li>
+      <li><code>npx claude-flow memory stats</code>, <code>memory export</code> and <code>memory import</code> – view and manage the persistent memory used for cross‑session knowledge sharing【55820130079483†L263-L283】.</li>
+      <li><code>./claude-flow agent list</code> and <code>agent info &lt;id&gt;</code> – list active agents and inspect their state【418129044042058†L216-L231】.</li>
+    </ul>
+
+    <h2>7. Best practices</h2>
+    <ul>
+      <li><strong>Start simple:</strong> begin with basic SPARC tasks before launching large swarms. This helps you understand how Claude‑Flow breaks down tasks and lets you refine your prompts【458005720463375†L229-L235】.</li>
+      <li><strong>Use descriptive prompts:</strong> write clear, specific task descriptions so the agents understand your goals【458005720463375†L237-L241】.</li>
+      <li><strong>Watch your resources:</strong> running many agents consumes Claude API credits; monitor your usage when launching large swarms【458005720463375†L243-L247】.</li>
+      <li><strong>Stay up to date:</strong> check your version with <code>npx claude-flow@latest --version</code> and read the release notes for new features.</li>
+    </ul>
+
+    <p>With these steps, you can initialise Claude‑Flow, orchestrate AI agents to analyse and improve your codebase, and monitor their progress until your project is optimised.</p>
+
+    <div class="citations">
+      <h2>References</h2>
+      <p>[1] Deeplearning.fr, “Claude‑Flow: The Complete Beginner’s Guide to AI‑Powered Development” – section on initialisation and generated files【458005720463375†L136-L150】.</p>
+      <p>[2] Deeplearning.fr, configuration of permissions via <code>claude --dangerously-skip-permissions</code>【458005720463375†L151-L159】.</p>
+      <p>[3] Deeplearning.fr, launching the SPARC orchestrator【458005720463375†L165-L169】.</p>
+      <p>[4] Deeplearning.fr, web interface and swarm mode【458005720463375†L204-L221】.</p>
+      <p>[5] LinkedIn article “The Definitive Guide to AI Development Orchestration” – explanation of the <code>swarm</code> command and its options【55820130079483†L203-L221】.</p>
+      <p>[6] LinkedIn post by Reuven Cohen – recommended init commands for v2 alpha【980844967369429†L48-L56】.</p>
+      <p>[7] NPM documentation – examples of basic and advanced swarm commands【418129044042058†L216-L231】.</p>
+      <p>[8] GitHub wiki – options for <code>swarm init</code> and swarm topologies【511710148952558†L185-L217】.</p>
+      <p>[9] Deeplearning.fr – tips on starting simple and writing descriptive prompts【458005720463375†L229-L241】 and monitoring resource usage【458005720463375†L243-L247】.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>This guide summarises how to set up and use Claude‑Flow for a local project. The information is based on publicly available documentation and articles as of August 2025. If new versions of Claude‑Flow introduce changes, consult the official repository for updates.</p>
+  </footer>
+</body>
+</html>
