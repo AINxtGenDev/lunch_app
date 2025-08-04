@@ -28,42 +28,55 @@ class AlbancoScraper(BaseScraper):
     def find_current_weekly_pdf_url(self) -> Optional[str]:
         """
         Find the current week's lunch PDF URL.
-        Pattern: https://albanco.at/wp-content/uploads/sites/3/2025/07/la4_KW{week}.pdf
+        Pattern: https://albanco.at/wp-content/uploads/sites/3/2025/08/la4_{week}.pdf
+        Note: The naming pattern changed from la4_KW{week}.pdf to la4_{week}.pdf
         """
         current_week = datetime.now().isocalendar()[1]
         current_year = datetime.now().year
         current_month = datetime.now().strftime('%m')
         
-        # Try current month first
-        pdf_url = f"https://albanco.at/wp-content/uploads/sites/3/{current_year}/{current_month}/la4_KW{current_week}.pdf"
+        # List of URL patterns to try (new pattern first, then old pattern)
+        url_patterns = [
+            # New pattern without "KW" prefix
+            f"https://albanco.at/wp-content/uploads/sites/3/{current_year}/{current_month}/la4_{current_week}.pdf",
+            # Old pattern with "KW" prefix (fallback)
+            f"https://albanco.at/wp-content/uploads/sites/3/{current_year}/{current_month}/la4_KW{current_week}.pdf"
+        ]
         
-        logger.info(f"Trying current week PDF: {pdf_url}")
-        
-        try:
-            response = requests.head(pdf_url, timeout=10)
-            if response.status_code == 200:
-                logger.info(f"Found current week PDF: KW{current_week}")
-                return pdf_url
-        except Exception as e:
-            logger.warning(f"Could not access PDF for KW{current_week}: {e}")
+        # Try each pattern in current month
+        for pdf_url in url_patterns:
+            logger.info(f"Trying current week PDF: {pdf_url}")
+            
+            try:
+                response = requests.head(pdf_url, timeout=10)
+                if response.status_code == 200:
+                    logger.info(f"Found current week PDF: week {current_week}")
+                    return pdf_url
+            except Exception as e:
+                logger.warning(f"Could not access PDF: {e}")
         
         # Try previous month if current month fails
         prev_month = datetime.now().replace(day=1) - timedelta(days=1)
         prev_month_str = prev_month.strftime('%m')
         
-        pdf_url_prev = f"https://albanco.at/wp-content/uploads/sites/3/{current_year}/{prev_month_str}/la4_KW{current_week}.pdf"
+        # Try both patterns in previous month
+        prev_url_patterns = [
+            f"https://albanco.at/wp-content/uploads/sites/3/{current_year}/{prev_month_str}/la4_{current_week}.pdf",
+            f"https://albanco.at/wp-content/uploads/sites/3/{current_year}/{prev_month_str}/la4_KW{current_week}.pdf"
+        ]
         
-        logger.info(f"Trying previous month PDF: {pdf_url_prev}")
+        for pdf_url_prev in prev_url_patterns:
+            logger.info(f"Trying previous month PDF: {pdf_url_prev}")
+            
+            try:
+                response = requests.head(pdf_url_prev, timeout=10)
+                if response.status_code == 200:
+                    logger.info(f"Found PDF in previous month: week {current_week}")
+                    return pdf_url_prev
+            except Exception as e:
+                logger.warning(f"Could not access PDF in previous month: {e}")
         
-        try:
-            response = requests.head(pdf_url_prev, timeout=10)
-            if response.status_code == 200:
-                logger.info(f"Found PDF in previous month: KW{current_week}")
-                return pdf_url_prev
-        except Exception as e:
-            logger.warning(f"Could not access PDF in previous month: {e}")
-        
-        logger.error(f"Could not find weekly PDF for KW{current_week}")
+        logger.error(f"Could not find weekly PDF for week {current_week}")
         return None
     
     def extract_menu_items(self) -> List[Dict[str, Any]]:
