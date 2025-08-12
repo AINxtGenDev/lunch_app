@@ -133,12 +133,11 @@ class CampusBrauScraper(BaseScraper):
                             elif 'nachspeise' in category_lower:
                                 category = "Dessert"
                             
-                            # Determine price based on category
+                            # Only set price on main dish (€15.50 is for the entire lunch menu)
                             price = None
                             if category == "Main Dish":
-                                price = "€ 15,50"  # Mittagsmenü
-                            elif category in ["Soup", "Dessert"]:
-                                price = "€ 13,50"  # Tagesteller or included
+                                price = "€ 15,50"  # Mittagsmenü (includes soup + main + dessert)
+                            # Soup and Dessert are included in the lunch menu price, no separate price
                             
                             # Skip empty descriptions
                             if not description or len(description.strip()) < 5:
@@ -179,16 +178,18 @@ class CampusBrauScraper(BaseScraper):
                                             description = detail_div.get_text(strip=True)
                                             category_text = item.get_text(strip=True).split('\n')[0]
                                             
+                                            # Determine category
                                             category = "Main Dish"
+                                            price = None
                                             if 'suppe' in category_text.lower():
                                                 category = "Soup"
-                                                price = "€ 13,50"
+                                                # No separate price for soup (included in lunch menu)
                                             elif 'hauptspeise' in category_text.lower():
                                                 category = "Main Dish"
-                                                price = "€ 15,50"
+                                                price = "€ 15,50"  # Mittagsmenü price shown only on main dish
                                             elif 'nachspeise' in category_text.lower():
                                                 category = "Dessert"
-                                                price = "€ 13,50"
+                                                # No separate price for dessert (included in lunch menu)
                                             
                                             if description and len(description.strip()) > 5:
                                                 menu_items.append({
