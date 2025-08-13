@@ -7,7 +7,7 @@ A Python-based web application that automatically scrapes daily lunch menus from
 **📱 Works perfectly on mobile devices (Android & iOS) with optimized touch interface**
 
 ## Features
-- **Automated Scraping:** Scrapes daily menus from 7 different restaurant websites
+- **Automated Scraping:** Scrapes daily menus from 8 different restaurant websites
 - **Multi-Format Support:** Handles HTML tables, iframes, PDF documents, and dynamic JavaScript content
 - **Real-time Updates:** Uses Socket.IO to push menu updates to the web interface in real-time
 - **Modern UI:** Professional, accessible interface with ultra-high contrast color system
@@ -29,8 +29,9 @@ A Python-based web application that automatically scrapes daily lunch menus from
 | **Cafe George** | https://cafegeorge.at/en/weekly-menu-en/ | iframe | 11 items | ✅ Active |
 | **Campus Bräu** | https://www.campusbraeu.at/ | HTML (weekly) | 4 items | ✅ Active |
 | **Albanco** | https://albanco.at/ | PDF (weekly) | 12 items | ✅ Active |
+| **Cyclist** | https://www.cafe-cyclist.com/ | Flipsnack (manual) | 2 items | ✅ Active |
 
-**Total: 57+ daily menu items across 7 restaurants**
+**Total: 59+ daily menu items across 8 restaurants**
 
 ## Technology Stack
 
@@ -80,6 +81,7 @@ lunch_app/
 │   │   ├── cafegeorge_scraper.py     # Cafe George iframe scraper
 │   │   ├── campusbraeu_scraper.py    # Campus Bräu HTML scraper
 │   │   ├── albanco_scraper.py        # Albanco weekly PDF scraper
+│   │   ├── cyclist_scraper.py        # Cyclist Cafe Flipsnack scraper
 │   │   └── chrome_driver_setup.py    # Chrome WebDriver configuration
 │   ├── services/
 │   │   └── scraping_service.py       # Orchestrates all scrapers
@@ -231,6 +233,9 @@ The scraping system uses an object-oriented design with the following patterns:
 - **IKI Restaurant**: Downloads weekly lunch PDF, extracts German/English text
 - **Albanco**: Downloads weekly PDF (KW pattern), parses Italian specialties menu
 
+#### Manual/Hardcoded Scrapers
+- **Cyclist**: Uses hardcoded weekly menu (Flipsnack viewer not scrapable)
+
 ### Real-time Features
 - **WebSocket Communication**: Socket.IO enables real-time menu updates
 - **Client Notifications**: Automatic browser updates when new menus are scraped
@@ -322,6 +327,7 @@ python test_4oh4_scraper.py
 python test_cafegeorge_scraper.py
 python test_henry_scraper.py
 python test_iki_scraper.py
+python test_cyclist_scraper.py
 
 # Manual scraping commands
 python manual_scrape.py              # Scrape all restaurants
@@ -344,6 +350,7 @@ python analyze_iki.py
 python analyze_cafegeorge.py
 python analyze_campusbraeu.py
 python analyze_albanco.py
+python analyze_cyclist.py
 python analyze_iframe_content.py
 python analyze_price_simple.py
 python analyze_price_structure.py
