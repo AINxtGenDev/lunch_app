@@ -1,0 +1,46 @@
+var itd = (new URLSearchParams(window.location.search)).has('itd');
+            window.cloudfrontBase = "https://d1dhn91mufybwl.cloudfront.net";
+            window.cloudfrontContentBase = "https://d160aj0mj3npgx.cloudfront.net";
+            window.cloudfrontStaticBase = "https://d1fpu6k62r548q.cloudfront.net";
+            window.gaCode = "";
+            window.gaTracking = "true";
+            window.statisticsEndpoint = "https://sqs.us-east-1.amazonaws.com/756737886395/flip-sts";
+            window.leadFormEndpoint = "https://sqs.us-east-1.amazonaws.com/756737886395/flip-widget-queue";
+            window.siteBase = "https://www.flipsnack.com";
+            window.appUrl = "https://app.flipsnack.com";
+            window.enableWatermark = "false";
+            window.enableCollectStats = itd ? "false" : "true";
+            window.downloadMode = "false";
+            window.exportName = "";
+            window.orderEmailEndpoint = "https://sqs.us-east-1.amazonaws.com/756737886395/flip-order-email";
+            window.recaptchaListKey = "6LceL0ghAAAAAIsQS9otnJ5paOB-2Qv85CF_18D0";
+            window.cloudfrontPrivate = "https://d3u72tnj701eui.cloudfront.net";
+            window.signatureFetchUrl = "https://content-private.flipsnack.com/authorization";
+            window.signatureInterval = "50000";
+            window.env = "production";
+            window.interactivityElementsEndpoint = "https://sqs.us-east-1.amazonaws.com/756737886395/flip-interactivity-stats";
+            window.interactivityResultsEndpoint = "https://interactivity-results.flipsnack.com/v1/quiz";
+            window.trackOrdersEndpoint = "https://sqs.us-east-1.amazonaws.com/756737886395/flip-track-orders";
+1 / 2
+document.addEventListener('DOMContentLoaded', function() {
+                var playerWidth = 0;
+                var playerHeight = 0;
+                var playerLoader = document.getElementById('loader-container');
+
+                if (playerLoader) {
+                    playerLoader.remove();
+                }
+
+                setInterval(function() {
+                    var width = window.innerWidth;
+                    var height = window.innerHeight;
+
+                    if (playerWidth !== width || playerHeight !== height) {
+                        playerWidth = width;
+                        playerHeight = height;
+                        document.documentElement.style.setProperty('--player-width', `${playerWidth}px`);
+                        document.documentElement.style.setProperty('--player-height', `${playerHeight}px`);
+                        window.dispatchEvent(new Event('resize'));
+                    }
+                }, 300);
+            }, false);

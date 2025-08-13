@@ -1,198 +1,33 @@
- python manual_scrape_today.py 
-/home/stecher/miniforge3/envs/lunch-menu-app/lib/python3.11/site-packages/flask_limiter/extension.py:324: UserWarning: Using the in-memory storage for tracking rate limits as no storage was explicitly specified. This is not recommended for production use. See: https://flask-limiter.readthedocs.io#configuring-a-storage-backend for documentation about configuring the storage backend.
-  warnings.warn(
-INFO:app:Database tables created/verified
-INFO:app:Initialized ScrapingService with 7 scrapers
-INFO:app:Debug mode: Skipping initial scrape
-WARNING:tzlocal:/etc/timezone is deprecated on Debian, and no longer reliable. Ignoring.
-INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
-INFO:apscheduler.scheduler:Added job "ScrapingService.run_all_scrapers" to job store "default"
-INFO:apscheduler.scheduler:Scheduler started
-INFO:app:Scheduler started. Daily scrape scheduled for 05:00.
-Starting manual scrape for today's menus...
-INFO:app:Initialized ScrapingService with 7 scrapers
-INFO:app:============================================================
-INFO:app:Starting scraping process for all restaurants
-INFO:app:============================================================
-INFO:app:
-▶ Running scraper for: Erste Campus
-INFO:app:  URL: https://erstecampus.at/mealplan/2025/external/single/kantine-en.html
-INFO:scraper:Starting scrape for Erste Campus
-INFO:app.scrapers.chrome_driver_setup:Successfully created Chrome WebDriver using system ChromeDriver
-INFO:scraper:Successfully scraped 9 items from Erste Campus
-WARNING:scraper:Menu for Erste Campus on 2025-08-11 already exists. Deleting old entries to update.
-INFO:scraper:Successfully added 9 new menu items for Erste Campus for 2025-08-11.
-INFO:scraper:Database update complete for Erste Campus.
-INFO:app:  ✅ Success: Saved 9 menu items
-DEBUG:app:  Sample item: 2025-08-11 - Soup - Iced melon soup mint...
-INFO:app:
-▶ Running scraper for: 4oh4
-INFO:app:  URL: https://4oh4.at/lunch-menu/
-INFO:app.scrapers.chrome_driver_setup:Successfully created Chrome WebDriver using system ChromeDriver
-INFO:app.scrapers.fouroh4_scraper:Loading iframe content from: https://4oh4.at/mealplan/2025/external/single/4oh4.html
-INFO:app.scrapers.fouroh4_scraper:Found 11 meal cards
-INFO:app.scrapers.fouroh4_scraper:Extracted 11 menu items from 4oh4
-WARNING:scraper:Menu for 4oh4 on 2025-08-11 already exists. Deleting old entries to update.
-INFO:scraper:Successfully added 11 new menu items for 4oh4 for 2025-08-11.
-INFO:scraper:Database update complete for 4oh4.
-INFO:app:  ✅ Success: Saved 11 menu items
-DEBUG:app:  Sample item: 2025-08-11 - Salad / Soup - Rindsuppe & Grießnockerl - Klare Rindsuppe|Grießno...
-INFO:app:
-▶ Running scraper for: Henry BDO
-INFO:app:  URL: https://www.enjoyhenry.com/menuplan-bdo/
-INFO:app.scrapers.chrome_driver_setup:Successfully created Chrome WebDriver using system ChromeDriver
-INFO:app.scrapers.henry_scraper:Loading Henry menu page: https://www.enjoyhenry.com/menuplan-bdo/
-INFO:app.scrapers.henry_scraper:Found today's menu column
-INFO:app.scrapers.henry_scraper:Found 8 menu cells
-INFO:app.scrapers.henry_scraper:Extracted 9 menu items from Henry
-WARNING:scraper:Menu for Henry BDO on 2025-08-11 already exists. Deleting old entries to update.
-INFO:scraper:Successfully added 9 new menu items for Henry BDO for 2025-08-11.
-INFO:scraper:Database update complete for Henry BDO.
-INFO:app:  ✅ Success: Saved 9 menu items
-DEBUG:app:  Sample item: 2025-08-11 - Salat - Salatbar (klein)...
-INFO:app:
-▶ Running scraper for: IKI Restaurant
-INFO:app:  URL: https://iki-restaurant.at/
-INFO:app.scrapers.iki_scraper:Found current week PDF: Lunch Specials (KW 34)
-INFO:app.scrapers.iki_scraper:Downloading PDF from: https://iki-restaurant.at/wp-content/uploads/sites/2/2025/08/Bento-KW34.pdf
-INFO:app.scrapers.iki_scraper:Successfully extracted 921 characters from PDF
-DEBUG:app.scrapers.iki_scraper:Parsed item: Bento Box - BENTO BOX I - Salmon Belly - Lachsbauch | Honig | Chili | Knoblauch | Schnittlauch (€16,50)
-DEBUG:app.scrapers.iki_scraper:Parsed item: Bento Box - BENTO BOX II - Pulled Pork - Geschmortes Schweinefleisch | Ponzu-Zwiebel | Koriander | Erdnüsse (€15,50)
-DEBUG:app.scrapers.iki_scraper:Parsed item: Salad - THAI WATERMELON SALAD - Wassermelone | Limette | Chili | Cashew | Minze | Koriander (€9,50)
-DEBUG:app.scrapers.iki_scraper:Parsed item: Main Dish - PORTOBELLO TOSTADA - Knusprige Maistortillas | Portobello | Süßkartoffelcreme | Hijiki | Curry Aioli | (€11,50)
-DEBUG:app.scrapers.iki_scraper:Parsed item: Main Dish - 0,25l - Lemongras iced tea (€4,00)
-INFO:app.scrapers.iki_scraper:Parsed 5 menu items from PDF text
-INFO:app.scrapers.iki_scraper:Successfully extracted 5 menu items from IKI
-WARNING:scraper:Menu for IKI Restaurant on 2025-08-11 already exists. Deleting old entries to update.
-INFO:scraper:Successfully added 5 new menu items for IKI Restaurant for 2025-08-11.
-INFO:scraper:Database update complete for IKI Restaurant.
-INFO:app:  ✅ Success: Saved 5 menu items
-DEBUG:app:  Sample item: 2025-08-11 - Bento Box - BENTO BOX I - Salmon Belly - Lachsbauch | Honig | ...
-INFO:app:
-▶ Running scraper for: Café George
-INFO:app:  URL: https://cafegeorge.at/en/weekly-menu-en/
-INFO:app.scrapers.chrome_driver_setup:Successfully created Chrome WebDriver using system ChromeDriver
-INFO:app.scrapers.cafegeorge_scraper:Loading iframe content from: https://erstecampus.at/mealplan/2025/external/single/george-en.html
-INFO:app.scrapers.cafegeorge_scraper:Found 13 meal cards
-INFO:app.scrapers.cafegeorge_scraper:Extracted 13 menu items from Café George
-WARNING:scraper:Menu for Café George on 2025-08-11 already exists. Deleting old entries to update.
-INFO:scraper:Successfully added 13 new menu items for Café George for 2025-08-11.
-INFO:scraper:Database update complete for Café George.
-INFO:app:  ✅ Success: Saved 13 menu items
-DEBUG:app:  Sample item: 2025-08-11 - Weekly Special - Unknown Dish - Peas-Coconut soup with Herb Crouton...
-INFO:app:
-▶ Running scraper for: Campus Bräu
-INFO:app:  URL: https://www.campusbraeu.at/
-INFO:app.scrapers.chrome_driver_setup:Successfully created Chrome WebDriver using system ChromeDriver
-INFO:app.scrapers.campusbraeu_scraper:Loading Campus Bräu website: https://www.campusbraeu.at/
-INFO:app.scrapers.campusbraeu_scraper:Clicked on SPEISEKARTE link
-INFO:app.scrapers.campusbraeu_scraper:Looking for menu for: Montag
-INFO:app.scrapers.campusbraeu_scraper:Found section for Montag
-DEBUG:app.scrapers.campusbraeu_scraper:Added item: Soup - Brokkolicremesuppe // Croutons (A/G/O)...
-DEBUG:app.scrapers.campusbraeu_scraper:Added item: Main Dish - Rosa gebratenes Schweinefilet // Eierschwammerlsau...
-DEBUG:app.scrapers.campusbraeu_scraper:Added item: Dessert - Blechkuchen // (A/C/G)...
-INFO:app.scrapers.campusbraeu_scraper:Extracted 3 menu items from Campus Bräu
-WARNING:scraper:Menu for Campus Bräu on 2025-08-11 already exists. Deleting old entries to update.
-INFO:scraper:Successfully added 3 new menu items for Campus Bräu for 2025-08-11.
-INFO:scraper:Database update complete for Campus Bräu.
-INFO:app:  ✅ Success: Saved 3 menu items
-DEBUG:app:  Sample item: 2025-08-11 - Soup - Brokkolicremesuppe // Croutons (A/G/O)...
-INFO:app:
-▶ Running scraper for: Albanco
-INFO:app:  URL: https://albanco.at/
-INFO:app.scrapers.albanco_scraper:Trying current week PDF: https://albanco.at/wp-content/uploads/sites/3/2025/08/la4_33.pdf
-INFO:app.scrapers.albanco_scraper:Found current week PDF: week 33
-INFO:app.scrapers.albanco_scraper:Downloading PDF from: https://albanco.at/wp-content/uploads/sites/3/2025/08/la4_33.pdf
-DEBUG:app.scrapers.albanco_scraper:Extracted PDF text:
-2025 KW 33
-auch als Take-away möglich
-INSALATA AL BANCO (A,F,O) 11,9 GNOCCHI PANCETTA E
-14,9
-VEGANO ZAFFERANO
-(A,C,G,O)
-Salatherzen, Rucola, Kirschtomaten,
-Gnocchi, Safransauce, knuspriger
-Avocado, schwarze Oliven, geröstetes
-Speck
-Brot
-Gnocchi, saffron sauce, crispy bacon
-Hearts of lettuce, rocket salad, cherry
-RISOTTO ALLE MELANZANE
-tomatoes, avocado, black olives, 14,2
-croutons (G,L,O)
-Risotto, Melanzani, Scamorza,
-CON GAMBERI (A,B,F,O) 20,9
-Pinienkerne
-mit Garnelen
-Risotto, eggplant, scamorza cheese,
-with prawns
-pine nuts
-CON MOZZARELLA DI BUFALA
-17,2 FILETTO DI SALMONE (D,G,O) 19,5
-(A,F,G,O)
-Lachsfilet, Erbsenpüree,
-Mit Büffelmozzarella
-Rosmarin-Ofenkartoffel
-With Buffalo mozzarella
-Salmon fillet, pea puree, rosemary
-PASTA FREDDA ESTIVA (A,G,O) 14,5 roasted potatoes
-VEGETARIANO RAVIOLI CON VERDURE (A,C,G) 14,2
-Farfalle, Mozzarella, getrocknete
-Büffelmozzarella-Ravioli, sautiertes
-Tomaten, eingelegte Artischocken,
-Gemüse, Basilikum
-Oliven, Pinienkerne, Basilikum
-Buffalo mozzarella ravioli, sautéed
-Farfalle, mozzarella, dried tomatoes,
-vegetables, basil
-marinated artichokes, olives, pine nuts,
-basil
-INSALATA MISTA (O) 5,9 PIATTI CLASSICI
-VEGANO
-Beilagensalat
-SPAGHETTI ALL´ARRABBIATA
-Side dish 14,2
-(A)
-VEGANO
-Dessert
-SPAGHETTI AGLIO, OLIO E
-13,2
-PEPERONCINO
-(A)
-TIRAMISÙ (A,C,G) 6,2 VEGANO
-VEGETARIANO
-Alle Preise in Euro, inkl. aller Steuern und
-Abgaben. Wir akzeptieren Maestro, Visa und
-Mastercard.
-DEBUG:app.scrapers.albanco_scraper:Added item: INSALATA AL BANCO - SALAD - € 11.9
-DEBUG:app.scrapers.albanco_scraper:Added item: GNOCCHI PANCETTA E ZAFFERANO - PASTA - € 14.9
-DEBUG:app.scrapers.albanco_scraper:Added item: RISOTTO ALLE MELANZANE - MAIN DISH - € 14.2
-DEBUG:app.scrapers.albanco_scraper:Added item: CON GAMBERI - SALAD - € 20.9
-DEBUG:app.scrapers.albanco_scraper:Added item: CON MOZZARELLA DI BUFALA - SALAD - € 17.2
-DEBUG:app.scrapers.albanco_scraper:Added item: FILETTO DI SALMONE - MAIN DISH - € 19.5
-DEBUG:app.scrapers.albanco_scraper:Added item: PASTA FREDDA ESTIVA - SALAD - € 14.5
-DEBUG:app.scrapers.albanco_scraper:Added item: RAVIOLI CON VERDURE - PASTA - € 14.2
-DEBUG:app.scrapers.albanco_scraper:Added item: INSALATA MISTA - SALAD - € 5.9
-DEBUG:app.scrapers.albanco_scraper:Added item: SPAGHETTI ALL'ARRABBIATA - PASTA - € 14.2
-DEBUG:app.scrapers.albanco_scraper:Added item: SPAGHETTI AGLIO, OLIO E PEPERONCINO - PASTA - € 13.2
-DEBUG:app.scrapers.albanco_scraper:Added item: TIRAMISÙ - DESSERT - € 6.2
-INFO:app.scrapers.albanco_scraper:Parsed 12 menu items from Albanco PDF
-WARNING:scraper:Menu for Albanco on 2025-08-11 already exists. Deleting old entries to update.
-INFO:scraper:Successfully added 12 new menu items for Albanco for 2025-08-11.
-INFO:scraper:Database update complete for Albanco.
-INFO:app:  ✅ Success: Saved 12 menu items
-DEBUG:app:  Sample item: 2025-08-11 - SALAD - INSALATA AL BANCO (A,F,O)...
-INFO:app:
+python test_cyclist_scraper.py
 ============================================================
-INFO:app:Scraping Summary:
-INFO:app:  Total scrapers: 7
-INFO:app:  Successful: 7
-INFO:app:  Failed: 0
-INFO:app:  Total items scraped: 62
-INFO:app:============================================================
-INFO:app:Notifying connected clients of menu update...
-INFO:app:Broadcast menu update for 7 restaurants with 62 total items
+Testing Cyclist Cafe Scraper
+============================================================
+Restaurant: Cyclist
+URL: https://www.cafe-cyclist.com/
+Menu URL: https://www.flipsnack.com/EE9BE6CC5A8/wochenmen-14-20-08-2023/full-view.html
+Today's date: 2025-08-13
+Today is: Wednesday
+------------------------------------------------------------
+Starting scrape...
+2025-08-13 21:31:40,917 - scraper - INFO - Starting scrape for Cyclist
+2025-08-13 21:31:40,917 - scraper - INFO - Using hardcoded menu for WEDNESDAY
+2025-08-13 21:31:40,918 - scraper - INFO - Successfully prepared 2 items from Cyclist
 
-Scraping completed!
-Results: {'total_scrapers': 7, 'successful': 7, 'failed': 0, 'total_items': 62, 'errors': []}
-(lunch-menu-app) stecher@stechertennis:~/lunch_app $ 
+✅ Successfully scraped 2 menu items!
+
+Menu items for today:
+------------------------------------------------------------
+
+Item 1:
+  Date: 2025-08-13
+  Category: Main Dish
+  Description: Veganer Burger mit Falafel
+
+Item 2:
+  Date: 2025-08-13
+  Category: Main Dish
+  Description: Chili sin Carne mit Reis, Tortilla Chips & Guacamole
+
+============================================================
+Test complete!
+============================================================
