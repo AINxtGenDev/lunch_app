@@ -30,3 +30,5 @@ dependencies:
     - flask-talisman
     - bleach
     - validators
+    - pytesseract
+    - pillow

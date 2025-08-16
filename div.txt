@@ -1,33 +1,61 @@
 python test_cyclist_scraper.py
-============================================================
-Testing Cyclist Cafe Scraper
-============================================================
-Restaurant: Cyclist
-URL: https://www.cafe-cyclist.com/
-Menu URL: https://www.flipsnack.com/EE9BE6CC5A8/wochenmen-14-20-08-2023/full-view.html
-Today's date: 2025-08-13
-Today is: Wednesday
-------------------------------------------------------------
-Starting scrape...
-2025-08-13 21:31:40,917 - scraper - INFO - Starting scrape for Cyclist
-2025-08-13 21:31:40,917 - scraper - INFO - Using hardcoded menu for WEDNESDAY
-2025-08-13 21:31:40,918 - scraper - INFO - Successfully prepared 2 items from Cyclist
+Choose test option:
+1. Test full scraper (web + OCR)
+2. Test OCR with local screenshot
+3. Run both tests
 
-✅ Successfully scraped 2 menu items!
-
-Menu items for today:
-------------------------------------------------------------
-
-Item 1:
-  Date: 2025-08-13
-  Category: Main Dish
-  Description: Veganer Burger mit Falafel
-
-Item 2:
-  Date: 2025-08-13
-  Category: Main Dish
-  Description: Chili sin Carne mit Reis, Tortilla Chips & Guacamole
+Enter choice (1-3): 3
 
 ============================================================
-Test complete!
+Testing OCR with Local Screenshot
+============================================================
+
+❌ Screenshot not found: /home/stecher/lunch_app/Screenshots/Screenshot from 2025-08-16 09-45-42.png
+
+============================================================
+Testing Improved Cyclist Scraper with OCR
+============================================================
+
+Step 1: Finding latest menu image URL...
+2025-08-16 10:57:17,722 - scraper - INFO - Found OG image URL: https://d160aj0mj3npgx.cloudfront.net/EE9BE6CC5A8/collections/z1jsuxo02v/items/5831a84b530c3b4ba7b801i149343333/covers/page_1/medium
+✅ Found image URL: https://d160aj0mj3npgx.cloudfront.net/EE9BE6CC5A8/collections/z1jsuxo02v/items/5831a84b530c3b4ba7b801i149343333/covers/page_1/medium
+
+Step 2: Downloading menu image...
+✅ Downloaded image (108593 bytes)
+   Saved to /home/stecher/lunch_app/Screenshots/test_menu_image.png for inspection
+
+Step 3: Performing advanced OCR...
+2025-08-16 10:57:18,595 - scraper - INFO - Saved preprocessed image to /home/stecher/lunch_app/Screenshots/preprocessed_menu.png
+2025-08-16 10:57:27,025 - scraper - INFO - OCR extracted 921 characters
+✅ OCR extracted 921 characters
+   Saved OCR output to /home/stecher/lunch_app/Screenshots/test_ocr_output.txt
+
+Step 3.5: Parsing menu text...
+   Found menu for 7 days
+   - MONDAY: 3 items
+   - TUESDAY: 3 items
+   - WEDNESDAY: 3 items
+   - THURSDAY: 2 items
+   - FRIDAY: 2 items
+   - SATURDAY: 2 items
+   - SUNDAY: 4 items
+
+Step 4: Running full scrape...
+2025-08-16 10:57:27,027 - scraper - INFO - Starting improved scrape for Cyclist
+2025-08-16 10:57:27,086 - scraper - INFO - Found OG image URL: https://d160aj0mj3npgx.cloudfront.net/EE9BE6CC5A8/collections/z1jsuxo02v/items/5831a84b530c3b4ba7b801i149343333/covers/page_1/medium
+2025-08-16 10:57:27,204 - scraper - INFO - Downloaded image (108593 bytes)
+2025-08-16 10:57:27,205 - scraper - INFO - Saved original image to /home/stecher/lunch_app/Screenshots/original_menu.png
+2025-08-16 10:57:27,552 - scraper - INFO - Saved preprocessed image to /home/stecher/lunch_app/Screenshots/preprocessed_menu.png
+2025-08-16 10:57:36,029 - scraper - INFO - OCR extracted 921 characters
+2025-08-16 10:57:36,030 - scraper - INFO - Saved OCR output to /home/stecher/lunch_app/Screenshots/ocr_output.txt
+2025-08-16 10:57:36,031 - scraper - INFO - Extracted 2 items for SATURDAY
+✅ Successfully scraped 2 menu items
+
+Today's Menu:
+----------------------------------------
+• LEBERKÄSE & PUTENLEBERKÄSE GRÜNE BOHNEN
+• Karotten & Rollgerste
+
+============================================================
+Test Complete
 ============================================================

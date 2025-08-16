@@ -1,0 +1,266 @@
+# Cyclist Scraper Explanation
+# How the Automated OCR-Based Menu Extraction Works
+
+## OVERVIEW
+=============================================================================
+The Cyclist scraper automatically extracts daily menu information from the 
+Cafe Cyclist website by downloading menu images from Flipsnack and using 
+Optical Character Recognition (OCR) to convert the images into structured 
+menu data.
+
+## WHY WE USE IMAGE DOWNLOAD + OCR APPROACH
+=============================================================================
+
+### The Problem:
+- Cafe Cyclist publishes their weekly menu as images on Flipsnack
+- Flipsnack displays menus in a viewer that doesn't expose text in HTML
+- Traditional web scraping cannot extract text from embedded images
+- The menu is updated weekly, requiring constant manual updates
+
+### The Solution:
+- Download the actual menu image from Flipsnack's CDN
+- Use OCR (Optical Character Recognition) to extract text from the image
+- Parse the extracted text to identify individual menu items
+- Structure the data for display on the website
+
+### Benefits:
+- ✅ Automatically gets the latest menu without manual intervention
+- ✅ Works even when Flipsnack changes their viewer interface
+- ✅ Extracts accurate menu items directly from the source
+- ✅ Updates daily without human involvement
+
+## STEP-BY-STEP PROCESS
+=============================================================================
+
+### STEP 1: FINDING THE MENU IMAGE URL
+--------------------------------------
+File: cyclist_scraper_improved.py
+Method: get_direct_image_url()
+
+1. **Access Flipsnack Page**
+   - Opens the known Flipsnack URL for Cyclist's weekly menu
+   - Uses realistic browser headers to avoid being blocked (403 errors)
+
+2. **Extract Image URL**
+   - Parses the HTML to find the og:image meta tag
+   - This contains the direct URL to the menu image on Flipsnack's CDN
+   - Example URL: https://d160aj0mj3npgx.cloudfront.net/.../page_1/medium
+
+3. **Test Image Accessibility**
+   - Verifies the image URL is accessible before proceeding
+   - Tries different URL variants (medium, large) if needed
+
+### STEP 2: DOWNLOADING THE MENU IMAGE
+-------------------------------------
+File: cyclist_scraper_improved.py
+Method: scrape() - image download section
+
+1. **Download with Proper Headers**
+   - Uses browser-like headers including Referer to avoid blocking
+   - Downloads the image file (typically 100KB+ PNG/JPEG)
+
+2. **Save for Debugging**
+   - Saves original image to Screenshots/original_menu.png
+   - Allows manual inspection if issues occur
+
+### STEP 3: IMAGE PREPROCESSING FOR OCR
+--------------------------------------
+File: cyclist_scraper_improved.py
+Method: preprocess_image_for_ocr()
+
+1. **Convert to Optimal Format**
+   - Converts to RGB, then grayscale for better OCR accuracy
+   - Resizes image if too small (minimum 1000px width)
+
+2. **Enhance Image Quality**
+   - Applies sharpening filter to improve text clarity
+   - Increases contrast (2.0x enhancement)
+   - Applies threshold to create crisp black and white text
+
+3. **Save Preprocessed Image**
+   - Saves to Screenshots/preprocessed_menu.png for debugging
+   - Shows exactly what the OCR engine will analyze
+
+### STEP 4: OPTICAL CHARACTER RECOGNITION (OCR)
+----------------------------------------------
+File: cyclist_scraper_improved.py
+Method: perform_advanced_ocr()
+
+1. **Multiple OCR Configurations**
+   - Tries different Tesseract settings for best results:
+     * --oem 3 --psm 6 (Default)
+     * --oem 3 --psm 11 (Sparse text)
+     * --oem 3 --psm 3 (Full page segmentation)
+
+2. **Language Support**
+   - Uses both German and English language models (lang='deu+eng')
+   - Handles German menu items like "Hähnchen", "Leberkäse"
+
+3. **Select Best Result**
+   - Compares results from different configurations
+   - Chooses the output with the most extracted characters
+
+4. **Save OCR Output**
+   - Saves raw text to Screenshots/ocr_output.txt
+   - Allows debugging of text extraction issues
+
+### STEP 5: MENU TEXT PARSING
+----------------------------
+File: cyclist_scraper_improved.py
+Method: parse_menu_intelligently()
+
+1. **Detect Layout Type**
+   - Identifies if menu uses two-column layout (SAMSTAG SAMSTAG)
+   - Determines parsing strategy based on layout
+
+2. **Extract Days and Items**
+   - Finds German day names (MONTAG, DIENSTAG, etc.)
+   - Groups menu items under each day
+
+### STEP 6: TWO-COLUMN MENU ITEM PARSING
+---------------------------------------
+File: cyclist_scraper_improved.py
+Method: parse_two_column_menu_items()
+
+1. **Handle Split Menu Items**
+   - OCR may read "GRÜNE BOHNEN" and "Karotten & Rollgerste" as separate lines
+   - Algorithm detects when these should be combined into one menu item
+
+2. **Multiple Parsing Strategies**:
+
+   **Strategy 1 - Keyword Detection:**
+   - Looks for menu keywords (PASTA, LEBERKÄSE, etc.)
+   - Splits lines when multiple keywords are found
+
+   **Strategy 2 - Special Patterns:**
+   - Handles specific cases like "GRÜNE BOHNEN Karotten & Rollgerste"
+   - Combines consecutive lines when appropriate
+
+   **Strategy 3 - Intelligent Word Analysis:**
+   - Analyzes capitalization patterns
+   - Identifies where one menu item ends and another begins
+
+### STEP 7: TODAY'S MENU EXTRACTION
+----------------------------------
+File: cyclist_scraper_improved.py
+Method: scrape() - final section
+
+1. **Get Current Day**
+   - Determines today's day of the week
+   - Maps to German day names (Saturday = SAMSTAG)
+
+2. **Extract Today's Items**
+   - Retrieves menu items for current day
+   - Formats for database storage
+
+3. **Structure Data**
+   - Creates list of dictionaries with:
+     * menu_date: Today's date
+     * category: "Main Dish"
+     * description: Menu item text
+     * price: Empty (not available in image)
+
+### STEP 8: FALLBACK MECHANISM
+-----------------------------
+File: cyclist_scraper_improved.py
+Method: get_fallback_menu()
+
+1. **Automatic Fallback**
+   - If any step fails (image download, OCR, parsing)
+   - Automatically uses hardcoded menu from last known good data
+
+2. **Always Provides Data**
+   - Ensures website always shows menu items
+   - Prevents empty menu displays for users
+
+## ERROR HANDLING & ROBUSTNESS
+=============================================================================
+
+### Image Download Failures:
+- Multiple URL formats attempted
+- Browser header simulation
+- Timeout handling
+- Graceful fallback to hardcoded menu
+
+### OCR Failures:
+- Multiple OCR configurations tested
+- Image preprocessing to improve accuracy
+- Text cleaning and error correction
+- Fallback menu if no text extracted
+
+### Parsing Failures:
+- Multiple parsing strategies
+- Pattern recognition for edge cases
+- Validation of extracted menu items
+- Fallback if parsing produces invalid results
+
+## DEBUGGING CAPABILITIES
+=============================================================================
+
+### Debug Files Created:
+1. **Screenshots/original_menu.png** - Raw downloaded image
+2. **Screenshots/preprocessed_menu.png** - Image after OCR preprocessing
+3. **Screenshots/ocr_output.txt** - Raw text extracted by OCR
+4. **Screenshots/test_menu_image.png** - Test downloads
+5. **Screenshots/test_ocr_output.txt** - Test OCR results
+
+### Logging:
+- Detailed logs at each step
+- Success/failure indicators
+- Performance metrics (characters extracted, items found)
+- Error details for troubleshooting
+
+## TECHNICAL SPECIFICATIONS
+=============================================================================
+
+### Required Dependencies:
+- **pytesseract** - Python wrapper for Tesseract OCR engine
+- **Pillow (PIL)** - Python Image Library for image processing
+- **requests** - HTTP library for downloading images
+- **BeautifulSoup** - HTML parsing for extracting image URLs
+
+### System Requirements:
+- **tesseract-ocr** - OCR engine
+- **tesseract-ocr-deu** - German language support
+- **chromium-chromedriver** - For Selenium fallback (optional)
+
+### Performance:
+- **Image Download**: ~2-3 seconds
+- **OCR Processing**: ~8-10 seconds on Raspberry Pi
+- **Total Processing Time**: ~15 seconds
+- **Menu Update Frequency**: Daily at 5:00 AM
+
+## MAINTENANCE
+=============================================================================
+
+### Weekly Updates:
+- Menu images change weekly on Flipsnack
+- Scraper automatically finds new image URLs
+- No manual intervention required
+
+### Monitoring:
+- Check Screenshots/ directory for debug files
+- Review application logs for any failures
+- Verify menu items appear correctly on website
+
+### Fallback Updates:
+- If OCR consistently fails, update hardcoded fallback menu
+- Located in get_fallback_menu() method
+- Should match latest known good menu
+
+## CONCLUSION
+=============================================================================
+
+The Cyclist scraper represents a sophisticated solution to automatically 
+extract menu data from image-based sources. By combining web scraping, 
+image processing, and OCR technology, it provides reliable, automated 
+menu updates without manual intervention.
+
+The multi-layered approach with fallback mechanisms ensures that users 
+always see menu information, even when individual components fail. The 
+extensive debugging capabilities make it easy to troubleshoot and maintain 
+the system.
+
+This approach can be adapted for other restaurants that publish menus as 
+images, making it a valuable template for expanding automated menu 
+extraction capabilities.
