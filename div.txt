@@ -1,61 +1,91 @@
 python test_cyclist_scraper.py
-Choose test option:
-1. Test full scraper (web + OCR)
-2. Test OCR with local screenshot
-3. Run both tests
 
-Enter choice (1-3): 3
+Starting Cyclist Scraper Tests...
+This will test that the scraper returns exactly 2 menus per day
+(corresponding to left and right columns on the website)
 
 ============================================================
-Testing OCR with Local Screenshot
+CYCLIST SCRAPER TEST - TWO MENUS PER DAY
 ============================================================
+Test started at: 2025-08-17 10:15:47
+Today is: Sunday, August 17, 2025
+------------------------------------------------------------
+Scraper initialized: Cyclist
+URL: https://www.cafe-cyclist.com/
+------------------------------------------------------------
 
-❌ Screenshot not found: /home/stecher/lunch_app/Screenshots/Screenshot from 2025-08-16 09-45-42.png
+Test 1: Attempting to scrape actual menu from website...
+INFO:scraper:Starting improved scrape for Cyclist
+INFO:scraper:Found OG image URL: https://d160aj0mj3npgx.cloudfront.net/EE9BE6CC5A8/collections/z1jsuxo02v/items/5831a84b530c3b4ba7b801i149343333/covers/page_1/medium
+INFO:scraper:Downloaded image (108593 bytes)
+INFO:scraper:Saved original image to /home/stecher/lunch_app/Screenshots/original_menu.png
+INFO:scraper:Saved preprocessed image to /home/stecher/lunch_app/Screenshots/preprocessed_menu.png
+INFO:scraper:OCR extracted 921 characters
+INFO:scraper:Saved OCR output to /home/stecher/lunch_app/Screenshots/ocr_output.txt
+INFO:scraper:Extracted 2 items for SUNDAY
+✓ Successfully scraped 2 menu items
+✓ CORRECT: Exactly 2 menu items (left and right column)
 
-============================================================
-Testing Improved Cyclist Scraper with OCR
-============================================================
-
-Step 1: Finding latest menu image URL...
-2025-08-16 10:57:17,722 - scraper - INFO - Found OG image URL: https://d160aj0mj3npgx.cloudfront.net/EE9BE6CC5A8/collections/z1jsuxo02v/items/5831a84b530c3b4ba7b801i149343333/covers/page_1/medium
-✅ Found image URL: https://d160aj0mj3npgx.cloudfront.net/EE9BE6CC5A8/collections/z1jsuxo02v/items/5831a84b530c3b4ba7b801i149343333/covers/page_1/medium
-
-Step 2: Downloading menu image...
-✅ Downloaded image (108593 bytes)
-   Saved to /home/stecher/lunch_app/Screenshots/test_menu_image.png for inspection
-
-Step 3: Performing advanced OCR...
-2025-08-16 10:57:18,595 - scraper - INFO - Saved preprocessed image to /home/stecher/lunch_app/Screenshots/preprocessed_menu.png
-2025-08-16 10:57:27,025 - scraper - INFO - OCR extracted 921 characters
-✅ OCR extracted 921 characters
-   Saved OCR output to /home/stecher/lunch_app/Screenshots/test_ocr_output.txt
-
-Step 3.5: Parsing menu text...
-   Found menu for 7 days
-   - MONDAY: 3 items
-   - TUESDAY: 3 items
-   - WEDNESDAY: 3 items
-   - THURSDAY: 2 items
-   - FRIDAY: 2 items
-   - SATURDAY: 2 items
-   - SUNDAY: 4 items
-
-Step 4: Running full scrape...
-2025-08-16 10:57:27,027 - scraper - INFO - Starting improved scrape for Cyclist
-2025-08-16 10:57:27,086 - scraper - INFO - Found OG image URL: https://d160aj0mj3npgx.cloudfront.net/EE9BE6CC5A8/collections/z1jsuxo02v/items/5831a84b530c3b4ba7b801i149343333/covers/page_1/medium
-2025-08-16 10:57:27,204 - scraper - INFO - Downloaded image (108593 bytes)
-2025-08-16 10:57:27,205 - scraper - INFO - Saved original image to /home/stecher/lunch_app/Screenshots/original_menu.png
-2025-08-16 10:57:27,552 - scraper - INFO - Saved preprocessed image to /home/stecher/lunch_app/Screenshots/preprocessed_menu.png
-2025-08-16 10:57:36,029 - scraper - INFO - OCR extracted 921 characters
-2025-08-16 10:57:36,030 - scraper - INFO - Saved OCR output to /home/stecher/lunch_app/Screenshots/ocr_output.txt
-2025-08-16 10:57:36,031 - scraper - INFO - Extracted 2 items for SATURDAY
-✅ Successfully scraped 2 menu items
-
-Today's Menu:
+Menu items for today:
 ----------------------------------------
-• LEBERKÄSE & PUTENLEBERKÄSE GRÜNE BOHNEN
-• Karotten & Rollgerste
+
+📍 Menu 1 (Column Left):
+   OFENKARTOFFEL Pulled Chicken, gebratener Lachs & Gemüse
+
+📍 Menu 2 (Column Right):
+   OFENKARTOFFEL Käse, Gemüse & Kräuter
+------------------------------------------------------------
+
+Test 2: Testing fallback menu...
+INFO:scraper:Using fallback menu
+✓ Fallback menu has 2 items
+✓ CORRECT: Exactly 2 menu items as expected!
+
+Fallback menu items:
+----------------------------------------
+
+📍 Menu 1 (Column Left):
+   OFENKARTOFFEL Pulled Chicken, gebratener Lachs & Gemüse
+
+📍 Menu 2 (Column Right):
+   OFENKARTOFFEL Käse, Gemüse & Kräuter
+------------------------------------------------------------
+
+Test 3: Testing menu parsing with two-column sample data...
+Parsed 2 days from sample
+
+MONDAY:
+  Found 2 items
+  ✓ CORRECT: Exactly 2 items
+    Left column:  MINUTE STEAK
+    Right column: PASTA Senfmarinade                Sonnengetrocknetes Tomatenpesto, Spinat, Paprika & Zucchini
+
+SUNDAY:
+  Found 2 items
+  ✓ CORRECT: Exactly 2 items
+    Left column:  OFEN
+    Right column: KARTOFFEL               OFENKARTOFFEL Pulled Chicken,             Käse, Gemüse & gebratener Lachs            Kräuter & Gemüse
 
 ============================================================
-Test Complete
+TEST SUMMARY
 ============================================================
+✅ The scraper should now display exactly TWO menu items per day
+   - First item = Left column from original website
+   - Second item = Right column from original website
+
+Example for Sunday:
+   1. OFENKARTOFFEL Pulled Chicken, gebratener Lachs & Gemüse
+   2. OFENKARTOFFEL Käse, Gemüse & Kräuter
+============================================================
+
+------------------------------------------------------------
+Do you want to test all days of the week? (y/n): y
+
+============================================================
+TESTING ALL DAYS - FALLBACK MENU
+============================================================
+INFO:scraper:Using fallback menu
+
+Test complete!
+(lunch-menu-app) stecher@stechertennis:~/lunch_app $ 
+
