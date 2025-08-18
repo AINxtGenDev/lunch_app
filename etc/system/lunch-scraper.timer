@@ -1,0 +1,12 @@
+[Unit]
+Description=Run Lunch Menu Scraper hourly
+Requires=lunch-scraper.service
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+RandomizedDelaySec=300
+AccuracySec=1min
+
+[Install]
+WantedBy=timers.target

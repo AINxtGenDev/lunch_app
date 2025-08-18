@@ -1,0 +1,40 @@
+[Unit]
+Description=Lunch Menu Scraper (oneshot)
+After=network-online.target
+Wants=network-online.target
+# Start-rate limiting belongs here:
+StartLimitIntervalSec=3600
+StartLimitBurst=3
+
+[Service]
+Type=oneshot
+User=stecher
+Group=stecher
+WorkingDirectory=/home/stecher/lunch_app
+
+# Keep env in a separate file
+EnvironmentFile=/etc/default/lunch-scraper
+
+# Create /run/lunch-scraper owned by this service’s user
+RuntimeDirectory=lunch-scraper
+RuntimeDirectoryMode=0750
+
+# Prevent overlapping runs via flock (non-blocking)
+ExecStart=/usr/bin/flock -n /run/lunch-scraper/lock \
+  /home/stecher/miniforge3/envs/lunch-menu-app/bin/python /home/stecher/lunch_app/manual_scrape_today.py
+
+# Cap runtime for oneshot (use this instead of RuntimeMaxSec)
+TimeoutStartSec=600
+
+# Logging
+SyslogIdentifier=lunch-scraper
+StandardOutput=journal
+StandardError=journal
+
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+# Explicitly allow writes where needed (app dir + runtime dir)
+ReadWritePaths=/home/stecher/lunch_app /run/lunch-scraper

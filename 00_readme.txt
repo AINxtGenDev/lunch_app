@@ -84,6 +84,74 @@ Run the installation script with sudo:
   - Run manually: sudo systemctl start lunch-scraper.service
   - Disable if needed: sudo systemctl disable lunch-scraper.timer
 
+
+#######################################################################
+## lunch-app services
+#######################################################################
+
+Create the environment file (keeps your paths configurable):
+
+sudo /etc/default/lunch-scraper
+PATH=/home/stecher/miniforge3/envs/lunch-menu-app/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+CONDA_DEFAULT_ENV=lunch-menu-app
+HOME=/home/stecher
+
+journalctl -u lunch-scraper.service -n 200 --no-pager
+
+pwd
+/etc/systemd/system
+(lunch-menu-app) stecher@stechertennis:/etc/systemd/system $ ls lunch*
+-rw-r--r-- 1 root root 652 Jul 29 10:13 lunch-app.service
+-rw-r--r-- 1 root root 622 Jul 31 20:21 lunch-scraper.service
+-rw-r--r-- 1 root root 350 Jul 31 20:21 lunch-scraper.timer
+
+systemctl status lunch-app.service 
+● lunch-app.service - Lunch Menu Flask Application
+     Loaded: loaded (/etc/systemd/system/lunch-app.service; enabled; preset: enabled)
+     Active: active (running) since Mon 2025-08-18 14:44:24 CEST; 9min ago
+   Main PID: 24852 (python)
+      Tasks: 2 (limit: 3920)
+        CPU: 58.909s
+     CGroup: /system.slice/lunch-app.service
+             ├─24852 /home/stecher/miniforge3/envs/lunch-menu-app/bin/python /home/stecher/miniforge3/envs/lunch-menu-app/bin/gunicorn --config /home/stecher/lunch_app/gunicorn_config.py run:app
+             └─24853 /home/stecher/miniforge3/envs/lunch-menu-app/bin/python /home/stecher/miniforge3/envs/lunch-menu-app/bin/gunicorn --config /home/stecher/lunch_app/gunicorn_config.py run:app
+
+Aug 18 14:44:24 stechertennis systemd[1]: Started lunch-app.service - Lunch Menu Flask Application.
+
+
+systemctl status lunch-scraper.service 
+● lunch-scraper.service - Lunch Menu Daily Scraper
+     Loaded: loaded (/etc/systemd/system/lunch-scraper.service; static)
+     Active: inactive (dead) since Mon 2025-08-18 05:02:24 CEST; 9h ago
+TriggeredBy: ● lunch-scraper.timer
+    Process: 14690 ExecStart=/home/stecher/miniforge3/envs/lunch-menu-app/bin/python /home/stecher/lunch_app/manual_scrape_today.py (code=exited, status=0/SUCCESS)
+   Main PID: 14690 (code=exited, status=0/SUCCESS)
+        CPU: 1min 13.123s
+
+Aug 18 05:02:23 stechertennis python[14690]: INFO:app:  Total items scraped: 52
+Aug 18 05:02:23 stechertennis python[14690]: INFO:app:============================================================
+Aug 18 05:02:23 stechertennis python[14690]: INFO:app:Notifying connected clients of menu update...
+Aug 18 05:02:23 stechertennis python[14690]: INFO:app:Broadcast menu update for 8 restaurants with 52 total items
+Aug 18 05:02:23 stechertennis python[14690]: Starting manual scrape for today's menus...
+Aug 18 05:02:23 stechertennis python[14690]: Scraping completed!
+Aug 18 05:02:23 stechertennis python[14690]: Results: {'total_scrapers': 8, 'successful': 7, 'failed': 1, 'total_items': 52, 'errors': [{'scraper': 'Albanco', 'error': 'No data returned'}]}
+Aug 18 05:02:24 stechertennis systemd[1]: lunch-scraper.service: Deactivated successfully.
+Aug 18 05:02:24 stechertennis systemd[1]: Finished lunch-scraper.service - Lunch Menu Daily Scraper.
+Aug 18 05:02:24 stechertennis systemd[1]: lunch-scraper.service: Consumed 1min 13.123s CPU time.
+
+
+
+systemctl status lunch-scraper.timer
+● lunch-scraper.timer - Run Lunch Menu Scraper Daily at 5 AM
+     Loaded: loaded (/etc/systemd/system/lunch-scraper.timer; enabled; preset: enabled)
+     Active: active (waiting) since Sun 2025-08-17 04:00:04 CEST; 1 day 10h ago
+    Trigger: Tue 2025-08-19 00:01:31 CEST; 9h left
+   Triggers: ● lunch-scraper.service
+
+Aug 17 04:00:04 stechertennis systemd[1]: Started lunch-scraper.timer - Run Lunch Menu Scraper Daily at 5 AM.
+
+
+
 #######################################################################
 ## git 
 #######################################################################
