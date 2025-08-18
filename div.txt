@@ -1,91 +1,111 @@
-python test_cyclist_scraper.py
+python test_albanco_scraper.py 
 
-Starting Cyclist Scraper Tests...
-This will test that the scraper returns exactly 2 menus per day
-(corresponding to left and right columns on the website)
+======================================================================
+Starting Albanco Scraper Test
+======================================================================
+======================================================================
+ALBANCO SCRAPER TEST
+======================================================================
+Test Date: 2025-08-18 08:48:41
+----------------------------------------------------------------------
 
-============================================================
-CYCLIST SCRAPER TEST - TWO MENUS PER DAY
-============================================================
-Test started at: 2025-08-17 10:15:47
-Today is: Sunday, August 17, 2025
-------------------------------------------------------------
-Scraper initialized: Cyclist
-URL: https://www.cafe-cyclist.com/
-------------------------------------------------------------
+✓ Scraper initialized: Albanco
+  Base URL: https://albanco.at/
 
-Test 1: Attempting to scrape actual menu from website...
-INFO:scraper:Starting improved scrape for Cyclist
-INFO:scraper:Found OG image URL: https://d160aj0mj3npgx.cloudfront.net/EE9BE6CC5A8/collections/z1jsuxo02v/items/5831a84b530c3b4ba7b801i149343333/covers/page_1/medium
-INFO:scraper:Downloaded image (108593 bytes)
-INFO:scraper:Saved original image to /home/stecher/lunch_app/Screenshots/original_menu.png
-INFO:scraper:Saved preprocessed image to /home/stecher/lunch_app/Screenshots/preprocessed_menu.png
-INFO:scraper:OCR extracted 921 characters
-INFO:scraper:Saved OCR output to /home/stecher/lunch_app/Screenshots/ocr_output.txt
-INFO:scraper:Extracted 2 items for SUNDAY
-✓ Successfully scraped 2 menu items
-✓ CORRECT: Exactly 2 menu items (left and right column)
+======================================================================
+TEST 1: PDF URL Discovery
+----------------------------------------------------------------------
+INFO:app.scrapers.albanco_scraper:Fetching Albanco homepage to find PDF link
+INFO:app.scrapers.albanco_scraper:Found PDF link: https://albanco.at/wp-content/uploads/sites/3/2025/08/la4.pdf
+✓ PDF URL found successfully
+  URL: https://albanco.at/wp-content/uploads/sites/3/2025/08/la4.pdf
 
-Menu items for today:
+======================================================================
+TEST 2: Menu Extraction
+----------------------------------------------------------------------
+INFO:app.scrapers.albanco_scraper:Fetching Albanco homepage to find PDF link
+INFO:app.scrapers.albanco_scraper:Found PDF link: https://albanco.at/wp-content/uploads/sites/3/2025/08/la4.pdf
+INFO:app.scrapers.albanco_scraper:Downloading PDF from: https://albanco.at/wp-content/uploads/sites/3/2025/08/la4.pdf
+INFO:app.scrapers.albanco_scraper:Parsed 12 menu items from Albanco PDF
+✓ Successfully extracted 12 menu items
+
+======================================================================
+EXTRACTED MENU ITEMS
+----------------------------------------------------------------------
+
+DESSERT:
 ----------------------------------------
+  • TIRAMISÙ (A,C,G)
+    Price: € 6.2
+    Date: 2025-08-18
 
-📍 Menu 1 (Column Left):
-   OFENKARTOFFEL Pulled Chicken, gebratener Lachs & Gemüse
 
-📍 Menu 2 (Column Right):
-   OFENKARTOFFEL Käse, Gemüse & Kräuter
-------------------------------------------------------------
-
-Test 2: Testing fallback menu...
-INFO:scraper:Using fallback menu
-✓ Fallback menu has 2 items
-✓ CORRECT: Exactly 2 menu items as expected!
-
-Fallback menu items:
+MAIN DISH:
 ----------------------------------------
+  • RISOTTO AL POMODORO (G,L,O)
+    Price: € 14.9
+    Date: 2025-08-18
 
-📍 Menu 1 (Column Left):
-   OFENKARTOFFEL Pulled Chicken, gebratener Lachs & Gemüse
+  • MELANZANA RIPIENA (G,L,O)
+    Price: € 15.0
+    Date: 2025-08-18
 
-📍 Menu 2 (Column Right):
-   OFENKARTOFFEL Käse, Gemüse & Kräuter
-------------------------------------------------------------
 
-Test 3: Testing menu parsing with two-column sample data...
-Parsed 2 days from sample
+PASTA:
+----------------------------------------
+  • RIGATINI AL TONNO (A,D)
+    Price: € 14.9
+    Date: 2025-08-18
 
-MONDAY:
-  Found 2 items
-  ✓ CORRECT: Exactly 2 items
-    Left column:  MINUTE STEAK
-    Right column: PASTA Senfmarinade                Sonnengetrocknetes Tomatenpesto, Spinat, Paprika & Zucchini
+  • RAVIOLI BURRO E SALVIA (A,C,G,H)
+    Price: € 14.9
+    Date: 2025-08-18
 
-SUNDAY:
-  Found 2 items
-  ✓ CORRECT: Exactly 2 items
-    Left column:  OFEN
-    Right column: KARTOFFEL               OFENKARTOFFEL Pulled Chicken,             Käse, Gemüse & gebratener Lachs            Kräuter & Gemüse
+  • SPAGHETTI ALL´ARRABBIATA (A)
+    Price: € 14.2
+    Date: 2025-08-18
 
-============================================================
-TEST SUMMARY
-============================================================
-✅ The scraper should now display exactly TWO menu items per day
-   - First item = Left column from original website
-   - Second item = Right column from original website
+  • SPAGHETTI AGLIO, OLIO E PEPERONCINO (A)
+    Price: € 13.2
+    Date: 2025-08-18
 
-Example for Sunday:
-   1. OFENKARTOFFEL Pulled Chicken, gebratener Lachs & Gemüse
-   2. OFENKARTOFFEL Käse, Gemüse & Kräuter
-============================================================
 
-------------------------------------------------------------
-Do you want to test all days of the week? (y/n): y
+SALAD:
+----------------------------------------
+  • INSALATA AL BANCO (A,F,O)
+    Price: € 11.9
+    Date: 2025-08-18
 
-============================================================
-TESTING ALL DAYS - FALLBACK MENU
-============================================================
-INFO:scraper:Using fallback menu
+  • CON GAMBERI (A,B,F,O)
+    Price: € 20.9
+    Date: 2025-08-18
 
-Test complete!
+  • INSALATA CON MORE (G,H,O)
+    Price: € 15.5
+    Date: 2025-08-18
+
+  • INSALATA MISTA (O)
+    Price: € 5.9
+    Date: 2025-08-18
+
+  • CON MOZZARELLA DI BUFALA (A,F,G,O)
+    Price: € 17.2
+    Date: 2025-08-18
+
+
+======================================================================
+SUMMARY
+----------------------------------------------------------------------
+Total items: 12
+Categories: DESSERT, MAIN DISH, PASTA, SALAD
+  - SALAD: 5 items
+  - PASTA: 4 items
+  - MAIN DISH: 2 items
+  - DESSERT: 1 items
+
+======================================================================
+TEST RESULT: ✓ SUCCESS
+The scraper is working correctly!
+======================================================================
 (lunch-menu-app) stecher@stechertennis:~/lunch_app $ 
 
