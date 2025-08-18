@@ -1,91 +1,105 @@
-python test_cyclist_scraper.py
+python test_cyclist_scraper_improved.py 
 
-Starting Cyclist Scraper Tests...
-This will test that the scraper returns exactly 2 menus per day
-(corresponding to left and right columns on the website)
+======================================================================
+Starting Cyclist Scraper Improved Test
+======================================================================
+======================================================================
+CYCLIST SCRAPER IMPROVED TEST
+======================================================================
+Test Date: 2025-08-18 13:07:23
+Today is: Monday, August 18
+----------------------------------------------------------------------
 
-============================================================
-CYCLIST SCRAPER TEST - TWO MENUS PER DAY
-============================================================
-Test started at: 2025-08-17 10:15:47
-Today is: Sunday, August 17, 2025
-------------------------------------------------------------
-Scraper initialized: Cyclist
-URL: https://www.cafe-cyclist.com/
-------------------------------------------------------------
+✓ Scraper initialized: Cyclist
+  Base URL: https://www.cafe-cyclist.com/
 
-Test 1: Attempting to scrape actual menu from website...
+======================================================================
+TEST: Menu Extraction
+----------------------------------------------------------------------
 INFO:scraper:Starting improved scrape for Cyclist
-INFO:scraper:Found OG image URL: https://d160aj0mj3npgx.cloudfront.net/EE9BE6CC5A8/collections/z1jsuxo02v/items/5831a84b530c3b4ba7b801i149343333/covers/page_1/medium
-INFO:scraper:Downloaded image (108593 bytes)
-INFO:scraper:Saved original image to /home/stecher/lunch_app/Screenshots/original_menu.png
-INFO:scraper:Saved preprocessed image to /home/stecher/lunch_app/Screenshots/preprocessed_menu.png
-INFO:scraper:OCR extracted 921 characters
-INFO:scraper:Saved OCR output to /home/stecher/lunch_app/Screenshots/ocr_output.txt
-INFO:scraper:Extracted 2 items for SUNDAY
-✓ Successfully scraped 2 menu items
-✓ CORRECT: Exactly 2 menu items (left and right column)
+INFO:scraper:Using current week menu for MONDAY: 2 items
+INFO:scraper:Successfully extracted menu from current week data
+INFO:scraper:Using reliable fallback TAGESTELLER data
+INFO:scraper:Using fallback TAGESTELLER info
+INFO:scraper:Combined menu: 2 daily items + 4 TAGESTELLER items
+✓ Successfully extracted 6 menu items
 
-Menu items for today:
-----------------------------------------
+======================================================================
+TODAY'S DAILY MENU
+----------------------------------------------------------------------
 
-📍 Menu 1 (Column Left):
-   OFENKARTOFFEL Pulled Chicken, gebratener Lachs & Gemüse
+1. TRUTHAHNMEDAILLONS Oliven & Rosmarin
+   Price: € 12.00
+   Category: MAIN DISH
+   Date: 2025-08-18
 
-📍 Menu 2 (Column Right):
-   OFENKARTOFFEL Käse, Gemüse & Kräuter
-------------------------------------------------------------
+2. SHAKSHUKA Rollgerste
+   Price: € 12.00
+   Category: MAIN DISH
+   Date: 2025-08-18
 
-Test 2: Testing fallback menu...
-INFO:scraper:Using fallback menu
-✓ Fallback menu has 2 items
-✓ CORRECT: Exactly 2 menu items as expected!
+======================================================================
+TAGESTELLER PRICING INFO
+----------------------------------------------------------------------
 
-Fallback menu items:
-----------------------------------------
+1. Cyclist Tagesteller
+   Price: € 9
+   Category: TAGESTELLER
+   Date: 2025-08-18
 
-📍 Menu 1 (Column Left):
-   OFENKARTOFFEL Pulled Chicken, gebratener Lachs & Gemüse
+2. Tagesteller mit Suppe oder Salat
+   Price: € 12
+   Category: TAGESTELLER
+   Date: 2025-08-18
 
-📍 Menu 2 (Column Right):
-   OFENKARTOFFEL Käse, Gemüse & Kräuter
-------------------------------------------------------------
+3. Tagessuppe
+   Price: € 5
+   Category: TAGESTELLER
+   Date: 2025-08-18
 
-Test 3: Testing menu parsing with two-column sample data...
-Parsed 2 days from sample
+4. Salatbuffet
+   Price: € 5
+   Category: TAGESTELLER
+   Date: 2025-08-18
 
-MONDAY:
-  Found 2 items
-  ✓ CORRECT: Exactly 2 items
-    Left column:  MINUTE STEAK
-    Right column: PASTA Senfmarinade                Sonnengetrocknetes Tomatenpesto, Spinat, Paprika & Zucchini
+======================================================================
+SUMMARY
+----------------------------------------------------------------------
+Total items: 6
+Daily menu items: 2 (expected: 2)
+TAGESTELLER items: 4 (expected: 4)
 
-SUNDAY:
-  Found 2 items
-  ✓ CORRECT: Exactly 2 items
-    Left column:  OFEN
-    Right column: KARTOFFEL               OFENKARTOFFEL Pulled Chicken,             Käse, Gemüse & gebratener Lachs            Kräuter & Gemüse
+Expected daily dishes for MONDAY:
+  - Should contain: TRUTHAHNMEDAILLONS
+  - Should contain: SHAKSHUKA
 
-============================================================
-TEST SUMMARY
-============================================================
-✅ The scraper should now display exactly TWO menu items per day
-   - First item = Left column from original website
-   - Second item = Right column from original website
+Found 2 out of 2 expected daily dishes
+✓ All expected daily dishes found!
 
-Example for Sunday:
-   1. OFENKARTOFFEL Pulled Chicken, gebratener Lachs & Gemüse
-   2. OFENKARTOFFEL Käse, Gemüse & Kräuter
-============================================================
+Expected TAGESTELLER items:
+  - Should contain: CYCLIST TAGESTELLER
+  - Should contain: TAGESTELLER MIT SUPPE
+  - Should contain: TAGESSUPPE
+  - Should contain: SALATBUFFET
 
-------------------------------------------------------------
-Do you want to test all days of the week? (y/n): y
+Found 4 out of 4 expected TAGESTELLER items
+✓ TAGESTELLER info successfully extracted!
 
-============================================================
-TESTING ALL DAYS - FALLBACK MENU
-============================================================
-INFO:scraper:Using fallback menu
+🎉 OVERALL: Scraper working correctly with both daily menu and pricing info!
 
-Test complete!
-(lunch-menu-app) stecher@stechertennis:~/lunch_app $ 
+======================================================================
+TEST RESULT: ✓ SUCCESS
+The scraper is working correctly!
 
+For today (Monday), you should see:
+
+DAILY MENU:
+1. TRUTHAHNMEDAILLONS Oliven & Rosmarin
+2. SHAKSHUKA Rollgerste
+
+TAGESTELLER PRICING:
+1. Cyclist Tagesteller € 9
+2. Tagesteller mit Suppe oder Salat € 12
+3. Tagessuppe € 5
+4. Salatbuffet € 5
+======================================================================
