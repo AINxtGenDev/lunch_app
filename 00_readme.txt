@@ -139,8 +139,6 @@ Aug 18 05:02:24 stechertennis systemd[1]: lunch-scraper.service: Deactivated suc
 Aug 18 05:02:24 stechertennis systemd[1]: Finished lunch-scraper.service - Lunch Menu Daily Scraper.
 Aug 18 05:02:24 stechertennis systemd[1]: lunch-scraper.service: Consumed 1min 13.123s CPU time.
 
-
-
 systemctl status lunch-scraper.timer
 ● lunch-scraper.timer - Run Lunch Menu Scraper Daily at 5 AM
      Loaded: loaded (/etc/systemd/system/lunch-scraper.timer; enabled; preset: enabled)
@@ -150,13 +148,20 @@ systemctl status lunch-scraper.timer
 
 Aug 17 04:00:04 stechertennis systemd[1]: Started lunch-scraper.timer - Run Lunch Menu Scraper Daily at 5 AM.
 
-
-
 #######################################################################
 ## git 
 #######################################################################
+# Make sure you're talking to the right remote/repo
+git remote -v          # should show AINxtGenDev/lunch_app
+git switch --track origin/optimized_scrapers
+git switch -c optimized_scrapers --track origin/optimized_scrapers
+
+git branch -vv
+
 git status
 git add .
 git commit -m "Initial commit"
 git push -u origin main
 git push
+
+
