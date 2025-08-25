@@ -30,11 +30,26 @@ class CafeGeorgeScraper(BaseScraper):
         """
         Extract menu items from Café George website.
         The menu is loaded in an iframe pointing to erstecampus.at mealplan system.
+        Note: Cafe George has WEEKLY specials and CLASSICS available all week,
+        but no specific daily menus. On weekends, we return empty as there
+        are no changing daily specials.
         """
         menu_items = []
         driver = None
         
         try:
+            # Get today's date and check if it's a weekend
+            today = datetime.now().date()
+            weekday = today.weekday()  # Monday=0, Sunday=6
+            is_weekend = weekday >= 5  # Saturday=5, Sunday=6
+            
+            # Cafe George doesn't have daily changing menus on weekends
+            # Their WEEKLY and CLASSICS menus are static throughout the week
+            # We only show menu for weekdays when there might be daily specials
+            if is_weekend:
+                logger.info(f"Today is {today.strftime('%A')} - Café George has no daily changing menu on weekends")
+                return []  # Return empty list for weekends
+            
             # Initialize the driver using ARM64-compatible setup
             driver = get_chrome_driver()
             
@@ -62,9 +77,6 @@ class CafeGeorgeScraper(BaseScraper):
             # Find all meal cards
             meal_cards = soup.find_all('div', class_='meal-card')
             logger.info(f"Found {len(meal_cards)} meal cards")
-            
-            # Get today's date
-            today = datetime.now().date()
             
             # Extract menu items from meal cards
             for card in meal_cards:
