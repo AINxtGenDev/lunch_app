@@ -149,19 +149,34 @@ systemctl status lunch-scraper.timer
 Aug 17 04:00:04 stechertennis systemd[1]: Started lunch-scraper.timer - Run Lunch Menu Scraper Daily at 5 AM.
 
 #######################################################################
-## git 
+## github
 #######################################################################
-# Make sure you're talking to the right remote/repo
-git remote -v          # should show AINxtGenDev/lunch_app
-git switch --track origin/optimized_scrapers
-git switch -c optimized_scrapers --track origin/optimized_scrapers
 
-git branch -vv
+#######################################################################
+## create a new branch on github
+#######################################################################
+*) on GitHub (safest): https://github.com/AINxtGenDev/lunch_app/branches
+   Go to your repo’s Branches page
+   Click the green New branch button (top right)
+   In the dialog:
+   Name: optimized_scrapers
+   Source branch: leave it as main (default)
+   Click Create branch.
+
+How to move to your new branch called "optimized_scrapers"?
+*) git fetch origin
+*) git remote -v          # should show AINxtGenDev/lunch_app
+*) git branch -vv
+*) git switch optimized_scrapers
+   git switch -c optimized_scrapers --track origin/optimized_scrapers
+
+   git branch -vv
+   main               44ce866 [origin/main] modified
+   * optimized_scrapers 77cfd61 [origin/optimized_scrapers] use new branch
 
 git status
 git add .
 git commit -m "Initial commit"
 git push -u origin main
 git push
-
 
