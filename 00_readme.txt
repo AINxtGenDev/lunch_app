@@ -155,8 +155,42 @@ Aug 17 04:00:04 stechertennis systemd[1]: Started lunch-scraper.timer - Run Lunc
 #######################################################################
 ## git 
 #######################################################################
+git branch -vv                  # shows current branch and its upstream
 git status
 git add .
 git commit -m "Initial commit"
 git push -u origin main
 git push
+#######################################################################
+## create a new branch on github
+#######################################################################
+*) on GitHub (safest): https://github.com/AINxtGenDev/lunch_app/branches
+   Go to your repo’s Branches page
+   Click the green New branch button (top right)
+   In the dialog:
+   Name: optimized_scrapers
+   Source branch: leave it as main (default)
+   Click Create branch.
+
+How to move to your new branch called "optimized_scrapers"?
+*) git fetch origin
+*) git switch optimized_scrapers
+   git switch -c optimized_scrapers --track origin/optimized_scrapers
+*) git branch -vv
+
+
+
+
+git branch -vv
+* main f0bcf2f [origin/main] optimized cafegeorge
+
+Meaning
+* main → you are currently on branch main, not optimized_scrapers.
+f0bcf2f → the latest local commit hash on that branch.
+[origin/main] → your local main is tracking the remote origin/main branch.
+optimized cafegeorge → the commit message of that commit.
+👉 So right now, all your commits will go to main (production) !!!
+
+
+
+
