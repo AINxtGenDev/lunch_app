@@ -180,3 +180,17 @@ git commit -m "Initial commit"
 git push -u origin main
 git push
 
+#######################################################################
+## Periodically sync latest production into your branch
+#######################################################################
+
+git fetch origin
+git rebase origin/main
+# if conflicts: fix -> git add <files> -> git rebase --continue
+git push --force-with-lease
+
+Finalize via Pull Request (when ready)
+Open: https://github.com/AINxtGenDev/lunch_app/compare/main...optimized_scrapers?expand=1
+Mark as Draft until tests/benchmarks are done. When approved & green, merge to main (use Squash or Rebase and merge per your policy).
+
+
