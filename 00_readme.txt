@@ -183,7 +183,6 @@ git push
 #######################################################################
 ## Periodically sync latest production into your branch
 #######################################################################
-
 git fetch origin
 git rebase origin/main
 # if conflicts: fix -> git add <files> -> git rebase --continue
