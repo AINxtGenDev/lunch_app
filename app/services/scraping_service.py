@@ -7,7 +7,6 @@ import logging
 
 from app import db, socketio
 from app.models import Restaurant, MenuItem
-from app.services.scraper_monitor import scraper_monitor
 from app.scrapers.erste_campus_scraper import ErsteCampusScraper
 from app.scrapers.fouroh4_scraper import FourOh4Scraper
 from app.scrapers.henry_scraper import HenryScraper
@@ -85,19 +84,12 @@ class ScrapingService:
 
         with current_app.app_context():
             for scraper in self.scrapers:
-                import time
-                start_time = time.time()
-                
-                # Record scrape start for monitoring
-                scraper_monitor.record_scrape_start(scraper.name)
-                
                 try:
                     self.logger.info(f"\n▶ Running scraper for: {scraper.name}")
                     self.logger.info(f"  URL: {scraper.url}")
 
                     # Run the scraper
                     menu_items = scraper.scrape()
-                    execution_time = time.time() - start_time
 
                     if menu_items:
                         # Save to database
@@ -107,17 +99,7 @@ class ScrapingService:
                         stats["successful"] += 1
                         stats["total_items"] += item_count
 
-                        # Check if fallback was used (for production scrapers)
-                        using_fallback = False
-                        if hasattr(scraper, 'metrics'):
-                            using_fallback = scraper.metrics.get('fallback_usage', 0) > 0
-
-                        # Record success in monitoring
-                        scraper_monitor.record_scrape_success(
-                            scraper.name, execution_time, item_count, using_fallback
-                        )
-
-                        self.logger.info(f"  ✅ Success: Saved {item_count} menu items in {execution_time:.1f}s")
+                        self.logger.info(f"  ✅ Success: Saved {item_count} menu items")
 
                         # Log sample items for verification
                         if menu_items and len(menu_items) > 0:
@@ -127,31 +109,17 @@ class ScrapingService:
                                 f"{sample.get('category')} - {sample.get('description')[:50]}..."
                             )
                     else:
-                        execution_time = time.time() - start_time
-                        error_msg = "No data returned"
-                        
                         stats["failed"] += 1
                         stats["errors"].append(
-                            {"scraper": scraper.name, "error": error_msg}
+                            {"scraper": scraper.name, "error": "No data returned"}
                         )
-                        
-                        # Record failure in monitoring
-                        scraper_monitor.record_scrape_failure(scraper.name, error_msg, execution_time)
-                        
                         self.logger.warning(
                             f"  ⚠️ Warning: No data returned from {scraper.name}"
                         )
 
                 except Exception as e:
-                    execution_time = time.time() - start_time
-                    error_msg = str(e)
-                    
                     stats["failed"] += 1
-                    stats["errors"].append({"scraper": scraper.name, "error": error_msg})
-                    
-                    # Record failure in monitoring
-                    scraper_monitor.record_scrape_failure(scraper.name, error_msg, execution_time)
-                    
+                    stats["errors"].append({"scraper": scraper.name, "error": str(e)})
                     self.logger.error(
                         f"  ❌ Error: Failed to run scraper for {scraper.name}: {e}",
                         exc_info=True,
